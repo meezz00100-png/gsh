@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'supabase_service.dart';
 
 class AuthStateManager extends ChangeNotifier {
@@ -45,14 +46,37 @@ class AuthStateManager extends ChangeNotifier {
 
   Future<void> signOut() async {
     try {
+      // Mark user as logged out in preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('user_logged_out', true);
+
+      // Sign out from Supabase
       await _supabaseService.auth.signOut();
-      // Force clear the auth state immediately
+
+      // Then update the state
       _currentUser = null;
       _isAuthenticated = false;
       notifyListeners();
-    } catch (e) {
-      rethrow;
+
+    } catch (e, stackTrace) {
+      debugPrint('Error during sign out: $e');
+      debugPrint('Stack trace: $stackTrace');
+      // Even if sign out fails, ensure we're in a clean state
+      _currentUser = null;
+      _isAuthenticated = false;
+      notifyListeners();
+      rethrow; // Rethrow to let the caller handle the error
     }
+  }
+
+  Future<bool> wasUserLoggedOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('user_logged_out') ?? false;
+  }
+
+  Future<void> clearLogoutFlag() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user_logged_out');
   }
 
   String? getUserEmail() {

@@ -3,6 +3,7 @@ import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/features/security/delete_account_dialog.dart';
 import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import 'package:harari_prosperity_app/shared/widgets/profile_item.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -11,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Setting"),
+        title: Text(context.translate('settings')),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -31,15 +32,16 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ProfileItem(
-                      icon: Icons.delete,
-                      title: "Delete Account",
-                      onTap: () => _showDeleteConfirmation(context),
-                    ),
-                    ProfileItem(
                       icon: Icons.language,
-                      title: "Language",
+                      title: context.translate('language'),
                       onTap: () =>
                           Navigator.pushNamed(context, AppRoutes.language),
+                    ),
+                    const SizedBox(height: 10),
+                    ProfileItem(
+                      icon: Icons.delete,
+                      title: context.translate('deleteAccount'),
+                      onTap: () => _showDeleteConfirmation(context),
                     ),
                   ],
                 ),
@@ -68,7 +70,9 @@ class SettingsScreen extends StatelessWidget {
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Failed to delete account: $e'),
+                  content: Text(
+                    context.translate('failedToDeleteAccount'),
+                  ), // Localized error
                   backgroundColor: Colors.red,
                 ),
               );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class ChangeUsernameScreen extends StatefulWidget {
   const ChangeUsernameScreen({super.key});
@@ -16,18 +17,15 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
   final _passwordController = TextEditingController();
   final _authService = AuthService();
   final _authStateManager = AuthStateManager();
-  
+
   bool _isLoading = false;
   String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    // Pre-fill current username if available
-    final currentUser = _authStateManager.currentUser;
-    if (currentUser?.userMetadata?['username'] != null) {
-      _usernameController.text = currentUser!.userMetadata!['username'];
-    }
+    // Leave username field empty for new input
+    // User can see current username but must enter new one
   }
 
   @override
@@ -56,21 +54,16 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
       }
 
       // Verify password by attempting to sign in
-      await _authService.signIn(
-        email: currentUser!.email!,
-        password: password,
-      );
+      await _authService.signIn(email: currentUser!.email!, password: password);
 
       // Update user metadata with new username
-      await _authService.updateProfile(
-        data: {'username': newUsername},
-      );
+      await _authService.updateProfile(data: {'username': newUsername});
 
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Username updated successfully!"),
+          SnackBar(
+            content: Text(context.translate('usernameUpdatedSuccessfully')),
             backgroundColor: Colors.green,
           ),
         );
@@ -90,19 +83,19 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
 
   String _getErrorMessage(String error) {
     if (error.contains('Invalid login credentials')) {
-      return 'Incorrect password. Please try again.';
+      return context.translate('incorrectPassword');
     } else if (error.contains('network')) {
-      return 'Network error. Please check your connection.';
+      return context.translate('networkError');
     } else if (error.contains('username')) {
-      return 'Username is already taken. Please choose another.';
+      return context.translate('usernameTaken');
     }
-    return 'An error occurred. Please try again.';
+    return context.translate('genericError');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Change Username")),
+      appBar: AppBar(title: Text(context.translate('changeUsername'))),
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth < 500 ? double.infinity : 400;
@@ -119,11 +112,11 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Change Username",
-                          style: TextStyle(
+                          context.translate('changeUsername'),
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -135,33 +128,35 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
                       TextFormField(
                         controller: _usernameController,
                         enabled: !_isLoading,
-                        decoration: const InputDecoration(
-                          labelText: "New Username",
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.person),
+                        decoration: InputDecoration(
+                          labelText: context.translate('newUsername'),
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.person),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter a username';
+                            return context.translate('enterUsername');
                           }
                           if (value.trim().length < 3) {
-                            return 'Username must be at least 3 characters';
+                            return context.translate('usernameMinLength');
                           }
                           if (value.trim().length > 20) {
-                            return 'Username must be less than 20 characters';
+                            return context.translate('usernameMaxLength');
                           }
-                          if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value.trim())) {
-                            return 'Username can only contain letters, numbers, and underscores';
+                          if (!RegExp(
+                            r'^[a-zA-Z0-9_]+$',
+                          ).hasMatch(value.trim())) {
+                            return context.translate('usernameAllowedChars');
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 24),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Confirm Password",
-                          style: TextStyle(
+                          context.translate('confirmPassword'),
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -174,14 +169,14 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
                         controller: _passwordController,
                         enabled: !_isLoading,
                         obscureText: true,
-                        decoration: const InputDecoration(
-                          labelText: "Current Password",
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.lock),
+                        decoration: InputDecoration(
+                          labelText: context.translate('currentPassword'),
+                          border: const OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.lock),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your current password';
+                            return context.translate('enterCurrentPassword');
                           }
                           return null;
                         },
@@ -197,7 +192,10 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.error_outline, color: Colors.red.shade600),
+                              Icon(
+                                Icons.error_outline,
+                                color: Colors.red.shade600,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -214,7 +212,9 @@ class _ChangeUsernameScreenState extends State<ChangeUsernameScreen> {
                       ],
                       const SizedBox(height: 24),
                       CustomButton(
-                        text: _isLoading ? "Updating..." : "Change",
+                        text: _isLoading
+                            ? context.translate('updating')
+                            : context.translate('change'),
                         onPressed: _isLoading ? null : _updateUsername,
                         filled: true,
                       ),

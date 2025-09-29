@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class ChoiceScreen extends StatelessWidget {
   const ChoiceScreen({super.key});
@@ -26,29 +27,32 @@ class ChoiceScreen extends StatelessWidget {
                       child: Image.asset(
                         'assets/images/prosperity_logo.png',
                         fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const FlutterLogo(size: 120),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const FlutterLogo(size: 120),
                       ),
                     ),
                     const SizedBox(height: 20),
                     const SizedBox(height: 40),
                     SizedBox(
-                      width: 200,
-                      height: 36,
+                      width: 250,
+                      height: 50,
                       child: CustomButton(
-                        text: "Log In",
-                        onPressed: () => Navigator.pushNamed(context, AppRoutes.login),
+                        text: context.translate('login'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.login),
                         filled: true,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text("or"),
+                    Text(context.translate('or')),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 200,
                       height: 36,
                       child: CustomButton(
-                        text: "Sign Up",
-                        onPressed: () => Navigator.pushNamed(context, AppRoutes.signup),
+                        text: context.translate('signup'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AppRoutes.signup),
                         filled: false,
                       ),
                     ),

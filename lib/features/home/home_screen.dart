@@ -3,6 +3,7 @@ import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
 import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -59,26 +60,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 32), // More space below logo
             Text(
-              "HELLO, ${_getDisplayName()}",
+              "${context.translate('hello')}, ${_getDisplayName()}",
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            const Text(
-              "Welcome to Harari Regional Prosperity Party Political Analysis System. "
-              "This application helps you to share the report to prosperity party office "
-              "by giving you the guidance of standards to make the report and it gives "
-              "you choices like document, pictures, links to attach with your report.",
-              style: TextStyle(fontSize: 16),
+            Text(
+              context.translate('welcomeToHarari'),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 40),
-            const Text(
-              "TO SEND A REPORT",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              context.translate('toSendReport'),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Center(
               child: CustomButton(
-                text: "CLICK HERE",
+                text: context.translate('clickHere'),
                 onPressed: () => Navigator.pushNamed(context, AppRoutes.reportDetail),
                 filled: true,
               ),

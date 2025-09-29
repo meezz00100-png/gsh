@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class TermsScreen extends StatefulWidget {
   const TermsScreen({super.key});
@@ -15,40 +16,34 @@ class _TermsScreenState extends State<TermsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Terms And Conditions")),
+      appBar: AppBar(title: Text(context.translate('termsAndConditions'))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Welcome to Harari Regional Prosperity Party\nPolitical Analysis System",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              context.translate('welcomeToHarari'),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            const Text(
-              "Lorem ipsum dolor sit amet. Et odio officia aut voluptate internos est omnis vitae ut architecto sunt non tenetur fuga ut provident vero. Quo aspernatur facere et consectetur ipsum et facere corrupti est asperiores facere. Est fugiat assumenda aut reprehenderit voluptatem sed.",
-            ),
+            Text(context.translate('termsDescription')),
             const SizedBox(height: 20),
-            const Text("1. Ea voluptates omnis aut sequi sequi."),
-            const Text("2. Est dolore quce in aliquid ducimus et outem repellendus."),
-            const Text("3. Aut ipsum Quis qui porto quasi aut minus placcati."),
-            const Text("4. Sit consequatur neque do vitae facere."),
+            Text(context.translate('termsPoint1')),
+            Text(context.translate('termsPoint2')),
+            Text(context.translate('termsPoint3')),
+            Text(context.translate('termsPoint4')),
             const SizedBox(height: 20),
-            const Text(
-              "Aut quidem accusantium nam alias autem eum officis placcat et omnis autem id officis perspiciatis qui corrupti officia eum aliquam provident. Eum voluptas error et opio dolorum cum molestiae nobis et odit molestiae quo magnam impedit sed fugiat nihil non nihil vitae.",
-            ),
+            Text(context.translate('termsDescription2')),
             const SizedBox(height: 20),
-            const Text("- Aut fuga sequi eum voluptatibus provident."),
-            const Text("- Eos consequuntur voluptas vel amet eaque aut dignissimos velit."),
+            Text(context.translate('termsBullet1')),
+            Text(context.translate('termsBullet2')),
             const SizedBox(height: 20),
-            const Text(
-              "Vel exercitationem quam vel eligendi rerum At harum obceccati et nostrum beatae? Ea accusantium dolores qui rerum aliquam est perterentis moltita et ipsum ipsa qui enim autem At corporis sunt. Aut odit quisquam est reprehenderi",
-            ),
+            Text(context.translate('termsDescription3')),
             const Divider(height: 40),
-            const Text(
-              "Read the terms and conditions in more detail at www.hrppapp.com.et",
-              style: TextStyle(fontStyle: FontStyle.italic),
+            Text(
+              context.translate('readTermsMore'),
+              style: const TextStyle(fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 20),
             Row(
@@ -61,15 +56,13 @@ class _TermsScreenState extends State<TermsScreen> {
                     });
                   },
                 ),
-                Expanded(
-                  child: Text("I accept all the terms and conditions"),
-                ),
+                Expanded(child: Text(context.translate('acceptAllTerms'))),
               ],
             ),
             const SizedBox(height: 30),
             Center(
               child: CustomButton(
-                text: "Accept & Continue",
+                text: context.translate('acceptContinue'),
                 onPressed: _isAccepted
                     ? () => Navigator.pushNamed(context, AppRoutes.login)
                     : null,

@@ -4,6 +4,7 @@ import 'package:harari_prosperity_app/shared/widgets/confirmation_dialog.dart';
 import 'package:harari_prosperity_app/features/faq/faq_help_screen.dart';
 import 'package:harari_prosperity_app/shared/widgets/profile_item.dart';
 import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool _isLoggingOut = false;
   final AuthStateManager _authManager = AuthStateManager();
 
   @override
@@ -59,57 +61,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   constraints: BoxConstraints(maxWidth: maxWidth),
                   child: Column(
                     children: [
-                      Column(
-                        children: [
-                          const CircleAvatar(
-                            radius: 50,
-                            backgroundColor: Colors.grey,
-                            child: Icon(Icons.person, size: 50, color: Colors.white),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            _getDisplayName(), 
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
-                          ),
-                          Text(
-                            "ID: ${_authManager.getUserId()?.substring(0, 8) ?? '25030024'}", 
-                            style: const TextStyle(color: Colors.grey)
-                          ),
-                        ],
+                      const CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey,
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        _getDisplayName(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "ID: ${_authManager.getUserId()?.substring(0, 8) ?? '25030024'}",
+                        style: const TextStyle(color: Colors.grey),
                       ),
                       const SizedBox(height: 30),
                       ProfileItem(
                         icon: Icons.edit,
-                        title: "Change Username",
-                        onTap: () => Navigator.pushNamed(context, AppRoutes.changeUsername),
+                        title: context.translate('editProfile'),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          AppRoutes.changeUsername,
+                        ),
                       ),
                       ProfileItem(
                         icon: Icons.lock,
-                        title: "Security",
-                        onTap: () => Navigator.pushNamed(context, AppRoutes.security),
+                        title: context.translate('security'),
+                        onTap: () =>
+                            Navigator.pushNamed(context, AppRoutes.security),
                       ),
                       ProfileItem(
                         icon: Icons.settings,
-                        title: "Setting",
+                        title: context.translate('settings'),
                         onTap: () {
                           Navigator.pushNamed(context, AppRoutes.settings);
                         },
                       ),
                       ProfileItem(
                         icon: Icons.help,
-                        title: "Faq and Help",
+                        title: context.translate('helpAndSupport'),
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const FaqHelpScreen()),
+                            MaterialPageRoute(
+                              builder: (context) => const FaqHelpScreen(),
+                            ),
                           );
                         },
                       ),
                       ProfileItem(
                         icon: Icons.logout,
-                        title: "Logout",
-                        onTap: () => _showLogoutConfirmation(context),
+                        title: context.translate('logout'),
+                        onTap: () => _handleLogout(context),
                       ),
+                      if (_isLoggingOut)
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: CircularProgressIndicator(),
+                        ),
                     ],
                   ),
                 ),
@@ -121,48 +137,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _showLogoutConfirmation(BuildContext context) {
-    showDialog(
+  Future<void> _handleLogout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => ConfirmationDialog(
-        title: "End Session",
-        message: "Are you sure you want to log out?",
-        confirmText: "Yes",
-        onConfirm: () async {
-          Navigator.pop(context); // Close dialog
-          
-          // Show loading indicator
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-          
-          try {
-            await _authManager.signOut();
-            if (context.mounted) {
-              Navigator.pop(context); // Close loading dialog first
-              // Clear all navigation stack and go to choice screen
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                AppRoutes.choice,
-                (route) => false,
-              );
-            }
-          } catch (e) {
-            if (context.mounted) {
-              Navigator.pop(context); // Close loading dialog
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Logout failed: ${e.toString()}'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          }
+        title: context.translate('logout'),
+        message: context.translate('logoutConfirmation'),
+        confirmText: context.translate('yes'),
+        cancelText: context.translate('no'),
+        confirmColor: Colors.red,
+        onConfirm: () {
+          Navigator.of(context).pop(true);
         },
       ),
     );
+
+    if (confirmed != true) return;
+
+    setState(() {
+      _isLoggingOut = true;
+    });
+
+    try {
+      // Use the AuthStateManager for consistent logout
+      await _authManager.signOut();
+      
+      if (mounted) {
+        setState(() {
+          _isLoggingOut = false;
+        });
+        
+        // Navigate to choice screen and clear all routes
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AppRoutes.choice,
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      debugPrint('Error during sign out: $e');
+      if (mounted) {
+        setState(() {
+          _isLoggingOut = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${context.translate('error')}: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }

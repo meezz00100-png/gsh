@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/services/report_service.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class FinalStepScreen extends StatefulWidget {
   const FinalStepScreen({super.key});
@@ -37,12 +38,12 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
     try {
       await _reportService.completeReport(_reportId!);
       setState(() => _errorMessage = null);
-      
+
       // Show success message and navigate
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Report completed successfully!'),
+          SnackBar(
+            content: Text(context.translate('reportCompletedSuccessfully')),
             backgroundColor: Colors.green,
           ),
         );
@@ -58,7 +59,7 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Final Step")),
+      appBar: AppBar(title: Text(context.translate('finalStep'))),
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth < 500 ? double.infinity : 400;
@@ -94,7 +95,9 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
                         decoration: BoxDecoration(
                           color: Colors.red.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.red.withOpacity(0.3)),
+                          border: Border.all(
+                            color: Colors.red.withOpacity(0.3),
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -108,23 +111,27 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
                             ),
                             IconButton(
                               icon: Icon(Icons.close, color: Colors.red),
-                              onPressed: () => setState(() => _errorMessage = null),
+                              onPressed: () =>
+                                  setState(() => _errorMessage = null),
                             ),
                           ],
                         ),
                       ),
-                    const Center(
+                    Center(
                       child: Text(
-                        "FINAL STEP",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        context.translate('finalStep').toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Center(
+                    Center(
                       child: Text(
-                        "If you have finished your report, just click the Finish button. If you want to change something, click Back.",
+                        context.translate('finalStepDescription'),
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -133,7 +140,7 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
                       children: [
                         Expanded(
                           child: CustomButton(
-                            text: "Back",
+                            text: context.translate('back'),
                             onPressed: () => Navigator.pop(context),
                             filled: false,
                           ),
@@ -141,7 +148,7 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: CustomButton(
-                            text: "Finish",
+                            text: context.translate('finish'),
                             onPressed: _finishReport,
                             filled: true,
                           ),

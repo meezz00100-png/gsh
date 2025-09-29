@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class PasswordSettingsScreen extends StatefulWidget {
   const PasswordSettingsScreen({super.key});
@@ -41,30 +42,30 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
 
   String? _validateCurrentPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your current password';
+  return context.translate('currentPasswordRequired');
     }
     return null;
   }
 
   String? _validateNewPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a new password';
+      return context.translate('newPasswordRequired');
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return context.translate('passwordTooShort');
     }
     if (!RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)').hasMatch(value)) {
-      return 'Password must contain at least one letter and one number';
+      return context.translate('passwordRequirements');
     }
     return null;
   }
 
   String? _validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please confirm your new password';
+      return context.translate('confirmPasswordRequired');
     }
     if (value != _newPasswordController.text) {
-      return 'Passwords do not match';
+      return context.translate('passwordMismatch');
     }
     return null;
   }
@@ -94,8 +95,8 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
       await _authService.refreshSession();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Password changed successfully!'),
+          SnackBar(
+            content: Text(context.translate('passwordChangedSuccessfully')),
             backgroundColor: Colors.green,
           ),
         );
@@ -108,15 +109,13 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
       final error = e.toString();
       setState(() {
         if (error.contains('Invalid login credentials')) {
-          _currentPasswordError = 'Incorrect current password.';
+          _currentPasswordError = context.translate('incorrectPassword');
         } else if (error.contains('network')) {
-          _currentPasswordError =
-              'Network error. Please check your connection.';
+          _currentPasswordError = context.translate('networkError');
         } else if (error.contains('password')) {
-          _newPasswordError = 'Password does not meet requirements.';
+          _newPasswordError = context.translate('passwordRequirements');
         } else {
-          _currentPasswordError =
-              'Failed to change password. Please try again.';
+          _currentPasswordError = context.translate('passwordChangeFailed');
         }
       });
     } finally {
@@ -131,7 +130,7 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Password Settings"),
+        title: Text(context.translate('passwordSettings')),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -154,11 +153,11 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 16),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Current Password",
-                          style: TextStyle(
+                          context.translate('currentPassword'),
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -173,7 +172,7 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                         validator: _validateCurrentPassword,
                         onChanged: (_) => _clearErrors(),
                         decoration: InputDecoration(
-                          labelText: "Current Password",
+                          labelText: context.translate('currentPassword'),
                           border: const OutlineInputBorder(),
                           errorText: _currentPasswordError,
                           errorBorder: _currentPasswordError != null
@@ -184,11 +183,11 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "New Password",
-                          style: TextStyle(
+                          context.translate('newPassword'),
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -203,7 +202,7 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                         validator: _validateNewPassword,
                         onChanged: (_) => _clearErrors(),
                         decoration: InputDecoration(
-                          labelText: "New Password",
+                          labelText: context.translate('newPassword'),
                           border: const OutlineInputBorder(),
                           errorText: _newPasswordError,
                           errorBorder: _newPasswordError != null
@@ -214,11 +213,11 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Confirm New Password",
-                          style: TextStyle(
+                          context.translate('confirmNewPassword'),
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
@@ -233,7 +232,7 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                         validator: _validateConfirmPassword,
                         onChanged: (_) => _clearErrors(),
                         decoration: InputDecoration(
-                          labelText: "Confirm New Password",
+                          labelText: context.translate('confirmNewPassword'),
                           border: const OutlineInputBorder(),
                           errorText: _confirmPasswordError,
                           errorBorder: _confirmPasswordError != null
@@ -246,7 +245,9 @@ class _PasswordSettingsScreenState extends State<PasswordSettingsScreen> {
                       const SizedBox(height: 24),
                       Center(
                         child: CustomButton(
-                          text: _isLoading ? "Changing..." : "Change Password",
+                          text: _isLoading
+                              ? context.translate('changingPassword')
+                              : context.translate('changePassword'),
                           onPressed: _isLoading ? null : _changePassword,
                           filled: true,
                         ),

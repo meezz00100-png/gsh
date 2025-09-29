@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class DeleteAccountDialog extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -7,19 +8,17 @@ class DeleteAccountDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Delete Account'),
-      content: const Text(
-        'Are you sure you want to delete your account? This action cannot be undone.',
-      ),
+      title: Text(context.translate('deleteAccount')),
+      content: Text(context.translate('deleteAccountConfirmation')),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(context.translate('cancel')),
         ),
         TextButton(
           onPressed: onConfirm,
           style: TextButton.styleFrom(foregroundColor: Colors.red),
-          child: const Text('Delete'),
+          child: Text(context.translate('delete')),
         ),
       ],
     );

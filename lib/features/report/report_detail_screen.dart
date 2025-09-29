@@ -4,6 +4,7 @@ import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
 import 'package:harari_prosperity_app/shared/models/report_model.dart';
 import 'package:harari_prosperity_app/shared/services/report_service.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class ReportDetailScreen extends StatefulWidget {
   const ReportDetailScreen({super.key});
@@ -18,6 +19,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
       setState(() => currentStep--);
     }
   }
+
   int currentStep = 1;
   final ReportService _reportService = ReportService();
   Report? _currentReport;
@@ -56,16 +58,16 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
   void nextStep() async {
     if (_formKeys[currentStep]!.currentState!.validate()) {
       _formKeys[currentStep]!.currentState!.save();
-      
+
       // Save current progress
       await _saveDraft();
-      
+
       if (currentStep < 5) {
         setState(() => currentStep++);
       } else {
         // Pass the report ID to attachment screen
         Navigator.pushNamed(
-          context, 
+          context,
           AppRoutes.attachment,
           arguments: _currentReport?.id,
         );
@@ -104,11 +106,11 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         updatedAt: now,
         status: 'draft',
       );
-      
+
       _currentReport = await _reportService.saveReport(report);
       setState(() => _errorMessage = null);
     } catch (e) {
-      setState(() => _errorMessage = 'Failed to save progress: $e');
+      setState(() => _errorMessage = context.translate('failedToSaveProgress'));
     } finally {
       setState(() => _isLoading = false);
     }
@@ -139,7 +141,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         _populateFormData(report);
       }
     } catch (e) {
-      setState(() => _errorMessage = 'Failed to load report: $e');
+      setState(() => _errorMessage = context.translate('failedToLoadReport'));
     } finally {
       setState(() => _isLoading = false);
     }
@@ -173,7 +175,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detail"),
+        title: Text(context.translate('reportDetail')),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -233,7 +235,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                     children: [
                       Expanded(
                         child: CustomButton(
-                          text: "BACK",
+                          text: context.translate('back'),
                           onPressed: previousStep,
                           filled: false,
                         ),
@@ -241,7 +243,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: CustomButton(
-                          text: "NEXT",
+                          text: context.translate('next'),
                           onPressed: nextStep,
                           filled: true,
                         ),
@@ -251,13 +253,13 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                 else ...[
                   if (currentStep > 1)
                     CustomButton(
-                      text: "BACK",
+                      text: context.translate('back'),
                       onPressed: previousStep,
                       filled: false,
                     ),
                   if (currentStep > 1) const SizedBox(height: 10),
                   CustomButton(
-                    text: "NEXT",
+                    text: context.translate('next'),
                     onPressed: nextStep,
                     filled: true,
                   ),
@@ -272,12 +274,18 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
 
   Widget _buildStepContent() {
     switch (currentStep) {
-      case 1: return _buildStep1();
-      case 2: return _buildStep2();
-      case 3: return _buildStep3();
-      case 4: return _buildStep4();
-      case 5: return _buildStep5();
-      default: return _buildStep1();
+      case 1:
+        return _buildStep1();
+      case 2:
+        return _buildStep2();
+      case 3:
+        return _buildStep3();
+      case 4:
+        return _buildStep4();
+      case 5:
+        return _buildStep5();
+      default:
+        return _buildStep1();
     }
   }
 
@@ -285,48 +293,65 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Heading title", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('headingTitle'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Name"),
+          decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['name'],
-          validator: (value) => value?.isEmpty == true ? 'Please enter a name' : null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterName') : null,
           onSaved: (value) => formData['name'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Report Type"),
+          decoration: InputDecoration(
+            labelText: context.translate('reportType'),
+          ),
           initialValue: formData['reportType'],
-          validator: (value) => value?.isEmpty == true ? 'Please enter a report type' : null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterReportType') : null,
           onSaved: (value) => formData['reportType'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Type"),
+          decoration: InputDecoration(labelText: context.translate('type')),
           initialValue: formData['type'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterType') : null,
           onSaved: (value) => formData['type'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Receiver Name"),
+          decoration: InputDecoration(
+            labelText: context.translate('receiverName'),
+          ),
           initialValue: formData['receiverName'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterReceiverName') : null,
           onSaved: (value) => formData['receiverName'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Objective of Report"),
+          decoration: InputDecoration(
+            labelText: context.translate('objectiveOfReport'),
+          ),
           initialValue: formData['objective'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterObjective') : null,
           onSaved: (value) => formData['objective'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Description"),
+          decoration: InputDecoration(
+            labelText: context.translate('description'),
+          ),
           initialValue: formData['description'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterDescription') : null,
           onSaved: (value) => formData['description'] = value ?? '',
         ),
       ],
@@ -337,33 +362,51 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Importance of Report", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('importanceOfReport'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['importance'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterImportance') : null,
           onSaved: (value) => formData['importance'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Main points", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('mainPoints'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['mainPoints'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterMainPoints') : null,
           onSaved: (value) => formData['mainPoints'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Information Sources", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('informationSources'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['sources'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterSources') : null,
           onSaved: (value) => formData['sources'] = value ?? '',
         ),
       ],
@@ -374,33 +417,51 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Roles of actors and stakeholders", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('rolesOfActors'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Description"),
+          decoration: InputDecoration(
+            labelText: context.translate('description'),
+          ),
           initialValue: formData['roles'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterRoles') : null,
           onSaved: (value) => formData['roles'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Positive and Negative trends", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('positiveNegativeTrends'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['trends'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterTrends') : null,
           onSaved: (value) => formData['trends'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Taken Themes", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('takenThemes'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['themes'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterThemes') : null,
           onSaved: (value) => formData['themes'] = value ?? '',
         ),
       ],
@@ -411,33 +472,51 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Implications and Conclusions", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('implicationsConclusions'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['implications'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterImplications') : null,
           onSaved: (value) => formData['implications'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Scenarios", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('scenarios'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['scenarios'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterScenarios') : null,
           onSaved: (value) => formData['scenarios'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Future plans and activities", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('futurePlansActivities'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Explanation"),
+          decoration: InputDecoration(
+            labelText: context.translate('explanation'),
+          ),
           initialValue: formData['futurePlans'],
           maxLines: 3,
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterFuturePlans') : null,
           onSaved: (value) => formData['futurePlans'] = value ?? '',
         ),
       ],
@@ -448,39 +527,57 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Report approving body", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('reportApprovingBody'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Name"),
+          decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['approvingBody'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterApprovingBody') : null,
           onSaved: (value) => formData['approvingBody'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Sender Name", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('senderName'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Name"),
+          decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['senderName'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterSenderName') : null,
           onSaved: (value) => formData['senderName'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Role", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('role'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Role"),
+          decoration: InputDecoration(labelText: context.translate('role')),
           initialValue: formData['role'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterRole') : null,
           onSaved: (value) => formData['role'] = value ?? '',
         ),
         const SizedBox(height: 20),
-        const Text("Time/Month/Date", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          context.translate('timeMonthDate'),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         TextFormField(
-          decoration: const InputDecoration(labelText: "Time/Month/Date"),
+          decoration: InputDecoration(
+            labelText: context.translate('timeMonthDate'),
+          ),
           initialValue: formData['date'],
-          validator: (value) => null,
+          validator: (value) =>
+              value?.isEmpty == true ? context.translate('pleaseEnterDate') : null,
           onSaved: (value) => formData['date'] = value ?? '',
         ),
       ],

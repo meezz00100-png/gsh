@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/services/report_service.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
@@ -51,13 +52,13 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
         });
       }
     } catch (e) {
-      setState(() => _errorMessage = 'Failed to pick files: $e');
+      setState(() => _errorMessage = '${context.translate('failedToPickFiles')}: $e');
     }
   }
 
   Future<void> _uploadAttachments() async {
     if (_reportId == null) {
-      setState(() => _errorMessage = 'No report ID found');
+      setState(() => _errorMessage = context.translate('noReportIdFound'));
       return;
     }
 
@@ -68,7 +69,15 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
         FilePickerResult? result = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           type: FileType.custom,
-          allowedExtensions: ['pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png'],
+          allowedExtensions: [
+            'pdf',
+            'doc',
+            'docx',
+            'txt',
+            'jpg',
+            'jpeg',
+            'png',
+          ],
         );
 
         if (result != null) {
@@ -80,7 +89,7 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                 fileBytes: file.bytes!,
                 contentType: _getContentType(file.extension),
               );
-              
+
               await _reportService.addAttachmentToReport(_reportId!, fileUrl);
             }
           }
@@ -94,7 +103,7 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
 
       setState(() => _errorMessage = null);
     } catch (e) {
-      setState(() => _errorMessage = 'Failed to upload attachments: $e');
+      setState(() => _errorMessage = '${context.translate('failedToUploadAttachments')}: $e');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -134,7 +143,7 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Attachment")),
+      appBar: AppBar(title: Text(context.translate('attachment'))),
       body: LayoutBuilder(
         builder: (context, constraints) {
           double maxWidth = constraints.maxWidth < 500 ? double.infinity : 400;
@@ -149,10 +158,10 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
-                        "Attach files or links to your report. You can choose one or both.",
-                        style: TextStyle(fontSize: 18),
+                        context.translate('attachFilesOrLinks'),
+                        style: const TextStyle(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -171,7 +180,9 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                         decoration: BoxDecoration(
                           color: Colors.red.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.red.withOpacity(0.3)),
+                          border: Border.all(
+                            color: Colors.red.withOpacity(0.3),
+                          ),
                         ),
                         child: Row(
                           children: [
@@ -185,44 +196,68 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                             ),
                             IconButton(
                               icon: Icon(Icons.close, color: Colors.red),
-                              onPressed: () => setState(() => _errorMessage = null),
+                              onPressed: () =>
+                                  setState(() => _errorMessage = null),
                             ),
                           ],
                         ),
                       ),
                     Card(
                       elevation: 2,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            const Center(child: Text("FILE", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                            Center(
+                              child: Text(
+                                context.translate('file').toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 12),
                             Center(
                               child: ElevatedButton.icon(
                                 icon: const Icon(Icons.attach_file),
-                                label: const Text("Choose File"),
+                                label: Text(context.translate('chooseFile')),
                                 onPressed: _pickFiles,
                               ),
                             ),
                             if (_selectedFiles.isNotEmpty) ...[
                               const SizedBox(height: 12),
                               Text(
-                                'Selected files:',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                context.translate('selectedFiles'),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               const SizedBox(height: 4),
-                              ...(_selectedFiles.map((file) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.description, size: 16),
-                                    const SizedBox(width: 4),
-                                    Expanded(child: Text(file, style: TextStyle(fontSize: 12))),
-                                  ],
-                                ),
-                              )).toList()),
+                              ...(_selectedFiles
+                                  .map(
+                                    (file) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 2,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.description, size: 16),
+                                          const SizedBox(width: 4),
+                                          Expanded(
+                                            child: Text(
+                                              file,
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList()),
                             ],
                           ],
                         ),
@@ -231,18 +266,28 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                     const SizedBox(height: 32),
                     Card(
                       elevation: 2,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            const Center(child: Text("LINK", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                            Center(
+                              child: Text(
+                                context.translate('link').toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 12),
                             TextField(
                               controller: _linkController,
-                              decoration: const InputDecoration(
-                                labelText: "Paste link here",
-                                border: OutlineInputBorder(),
+                              decoration: InputDecoration(
+                                labelText: context.translate('pasteLinkHere'),
+                                border: const OutlineInputBorder(),
                               ),
                             ),
                           ],
@@ -255,15 +300,19 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
                       children: [
                         Expanded(
                           child: CustomButton(
-                            text: "SKIP",
-                            onPressed: () => Navigator.pushNamed(context, AppRoutes.finalStep, arguments: _reportId),
+                            text: context.translate('skip'),
+                            onPressed: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.finalStep,
+                              arguments: _reportId,
+                            ),
                             filled: false,
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: CustomButton(
-                            text: "Next",
+                            text: context.translate('next'),
                             onPressed: _proceedToFinalStep,
                             filled: true,
                           ),

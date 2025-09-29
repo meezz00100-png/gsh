@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
+import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class FaqScreen extends StatelessWidget {
   const FaqScreen({super.key});
@@ -9,21 +10,14 @@ class FaqScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Column(
-        children: const [
+        children: [
           TabBar(
             tabs: [
-              Tab(text: 'FAQ'),
-              Tab(text: 'Contact Us'),
+              Tab(text: context.translate('faq')),
+              Tab(text: context.translate('contactUs')),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                FaqTab(),
-                ContactUsTab(),
-              ],
-            ),
-          ),
+          Expanded(child: TabBarView(children: [FaqTab(), ContactUsTab()])),
         ],
       ),
     );
@@ -36,27 +30,28 @@ class FaqTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final faqs = [
-      "How to use this app?",
-      "What is the help of this app?",
-      "How to contact support?",
-      "How can I reset my password if I forget it?",
-      "Are there any privacy or data security measures in place?",
-      "How can I change the language?",
-      "How can I delete my account?",
-      "How do I access my Report history?",
-      "Can I use the app offline?",
+      context.translate('howCreateReport'),
+      context.translate('whatTypesReports'),
+      context.translate('howAttachFiles'),
+      context.translate('canSaveDraft'),
+      context.translate('howViewReports'),
+      context.translate('reportApprovalProcess'),
+      context.translate('howEditProfile'),
+      context.translate('howChangePassword'),
+      context.translate('howContactSupport'),
     ];
-
     return ResponsivePadding(
       child: ListView.builder(
         itemCount: faqs.length,
         itemBuilder: (context, index) {
           return ExpansionTile(
             title: Text(faqs[index]),
-            children: [const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text("Detailed answer to this question will appear here..."),
-            )],
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(context.translate('faqAnswer')),
+              ),
+            ],
           );
         },
       ),
@@ -73,15 +68,15 @@ class ContactUsTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "How Can We Help You?",
-            style: TextStyle(fontSize: 18),
+          Text(
+            context.translate('howCanWeHelp'),
+            style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 30),
-          _buildContactItem("Customer Service", "09......"),
-          _buildContactItem("Website", "www.hrppapp.com.et"),
-          _buildContactItem("Facebook", "@ProsperityPartyHR"),
-          _buildContactItem("Telegram", "@ProsperityPartyHR"),
+          _buildContactItem(context.translate('customerService'), "09......"),
+          _buildContactItem(context.translate('website'), "www.hrppapp.com.et"),
+          _buildContactItem(context.translate('facebook'), "@ProsperityPartyHR"),
+          _buildContactItem(context.translate('telegram'), "@ProsperityPartyHR"),
         ],
       ),
     );
