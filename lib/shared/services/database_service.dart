@@ -1,20 +1,43 @@
-import 'dart:typed_data';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../config/api_config.dart';
 
 class DatabaseService {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  Future<Map<String, dynamic>?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final sessionJson = prefs.getString('session');
+    if (sessionJson != null) {
+      final session = json.decode(sessionJson);
+      return session;
+    }
+    return null;
+  }
 
-  // Generic method to insert data
+  // Generic method to insert data to table endpoint
   Future<List<Map<String, dynamic>>> insert({
     required String table,
     required Map<String, dynamic> data,
   }) async {
     try {
-      final response = await _supabase
-          .from(table)
-          .insert(data)
-          .select();
-      return response;
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/${table}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${token['access_token']}',
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 201) {
+        final body = json.decode(response.body);
+        return [body['data'] ?? body]; // return list for compatibility
+      } else {
+        throw Exception('Insert failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }
@@ -31,22 +54,35 @@ class DatabaseService {
     bool ascending = true,
   }) async {
     try {
-      dynamic query = _supabase.from(table).select(columns);
-      
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final params = <String, String>{};
       if (where != null && whereValue != null) {
-        query = query.eq(where, whereValue);
+        params[where] = whereValue.toString();
       }
-      
+      if (limit != null) params['_limit'] = limit.toString();
       if (orderBy != null) {
-        query = query.order(orderBy, ascending: ascending);
+        params['_sort'] = orderBy;
+        params['_order'] = ascending ? 'asc' : 'desc';
       }
-      
-      if (limit != null) {
-        query = query.limit(limit);
+
+      final uri = Uri.parse(
+        '${ApiConfig.baseUrl}/${table}?${Uri(queryParameters: params).query}',
+      );
+
+      final response = await http.get(
+        uri,
+        headers: {'Authorization': 'Bearer ${token['access_token']}'},
+      );
+
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        final results = body['data'] ?? body;
+        return List<Map<String, dynamic>>.from(results);
+      } else {
+        throw Exception('Select failed: ${response.statusCode}');
       }
-      
-      final result = await query;
-      return List<Map<String, dynamic>>.from(result);
     } catch (e) {
       rethrow;
     }
@@ -60,12 +96,26 @@ class DatabaseService {
     required dynamic whereValue,
   }) async {
     try {
-      final response = await _supabase
-          .from(table)
-          .update(data)
-          .eq(where, whereValue)
-          .select();
-      return response;
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$where=$whereValue');
+
+      final response = await http.put(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${token['access_token']}',
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return [body['data'] ?? body]; // list for compatibility
+      } else {
+        throw Exception('Update failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }
@@ -78,101 +128,131 @@ class DatabaseService {
     required dynamic whereValue,
   }) async {
     try {
-      await _supabase
-          .from(table)
-          .delete()
-          .eq(where, whereValue);
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$where=$whereValue');
+
+      final response = await http.delete(
+        uri,
+        headers: {'Authorization': 'Bearer ${token['access_token']}'},
+      );
+
+      if (response.statusCode != 204) {
+        throw Exception('Delete failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  // Method to execute custom queries
+  // Method to execute custom queries (simplified, assume GET with params)
   Future<List<Map<String, dynamic>>> customQuery({
     required String table,
-    required Future<List<Map<String, dynamic>>> Function(PostgrestQueryBuilder) queryBuilder,
+    required dynamic queryParams,
   }) async {
     try {
-      final query = _supabase.from(table);
-      return await queryBuilder(query);
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$queryParams');
+
+      final response = await http.get(
+        uri,
+        headers: {'Authorization': 'Bearer ${token['access_token']}'},
+      );
+
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return List<Map<String, dynamic>>.from(body['data'] ?? body);
+      } else {
+        throw Exception('Custom query failed');
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  // Real-time subscription
-  RealtimeChannel subscribeToTable({
-    required String table,
-    required void Function(PostgresChangePayload) onInsert,
-    required void Function(PostgresChangePayload) onUpdate,
-    required void Function(PostgresChangePayload) onDelete,
-  }) {
-    return _supabase
-        .channel('public:$table')
-        .onPostgresChanges(
-          event: PostgresChangeEvent.insert,
-          schema: 'public',
-          table: table,
-          callback: onInsert,
-        )
-        .onPostgresChanges(
-          event: PostgresChangeEvent.update,
-          schema: 'public',
-          table: table,
-          callback: onUpdate,
-        )
-        .onPostgresChanges(
-          event: PostgresChangeEvent.delete,
-          schema: 'public',
-          table: table,
-          callback: onDelete,
-        )
-        .subscribe();
-  }
+  // Note: Real-time subscription not implemented in REST - use polling or webhooks
+  // For now, removed as not used in app
 
-  // File upload to Supabase Storage
+  // File upload via POST to upload endpoint
   Future<String> uploadFile({
-    required String bucket,
     required String fileName,
     required List<int> fileBytes,
     String? contentType,
   }) async {
     try {
-      await _supabase.storage
-          .from(bucket)
-          .uploadBinary(fileName, Uint8List.fromList(fileBytes));
-      
-      return _supabase.storage
-          .from(bucket)
-          .getPublicUrl(fileName);
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final request =
+          http.MultipartRequest(
+              'POST',
+              Uri.parse('${ApiConfig.baseUrl}/upload'),
+            )
+            ..headers['Authorization'] = 'Bearer ${token['access_token']}'
+            ..files.add(
+              http.MultipartFile.fromBytes(
+                'file',
+                fileBytes,
+                filename: fileName,
+              ),
+            );
+
+      final response = await request.send();
+      final responseData = await response.stream.bytesToString();
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final body = json.decode(responseData);
+        return body['url'] ?? body['fileUrl'];
+      } else {
+        throw Exception('Upload failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  // File download from Supabase Storage
-  Future<List<int>> downloadFile({
-    required String bucket,
-    required String fileName,
-  }) async {
+  // File download (GET from URL directly, assuming public or auth)
+  Future<List<int>> downloadFile(String fileUrl) async {
     try {
-      return await _supabase.storage
-          .from(bucket)
-          .download(fileName);
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final response = await http.get(
+        Uri.parse(fileUrl),
+        headers: {'Authorization': 'Bearer ${token['access_token']}'},
+      );
+
+      if (response.statusCode == 200) {
+        return response.bodyBytes;
+      } else {
+        throw Exception('Download failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  // Delete file from Supabase Storage
-  Future<void> deleteFile({
-    required String bucket,
-    required String fileName,
-  }) async {
+  // Delete file via DELETE endpoint
+  Future<void> deleteFile(String fileUrl) async {
     try {
-      await _supabase.storage
-          .from(bucket)
-          .remove([fileName]);
+      final token = await _getToken();
+      if (token == null) throw Exception('Not authenticated');
+
+      final response = await http.delete(
+        Uri.parse('${ApiConfig.baseUrl}/delete-file'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${token['access_token']}',
+        },
+        body: json.encode({'url': fileUrl}),
+      );
+
+      if (response.statusCode != 204 && response.statusCode != 200) {
+        throw Exception('Delete file failed: ${response.statusCode}');
+      }
     } catch (e) {
       rethrow;
     }

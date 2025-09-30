@@ -2,23 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'shared/constants.dart';
-import 'shared/config/supabase_config.dart';
+import 'shared/config/api_config.dart';
 import 'shared/localization/app_localizations.dart';
 import 'shared/services/language_service.dart';
 import 'routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Supabase
-  await Supabase.initialize(
-    url: SupabaseConfig.supabaseUrl,
-    anonKey: SupabaseConfig.supabaseAnonKey,
-  );
 
   // Set preferred orientation to portrait only
   const bool isTest = bool.fromEnvironment('dart.vm.product') == false;
@@ -31,7 +24,8 @@ void main() async {
 }
 
 // Fallback delegates for unsupported locales
-class FallbackCupertinoLocalisationsDelegate extends LocalizationsDelegate<CupertinoLocalizations> {
+class FallbackCupertinoLocalisationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
   const FallbackCupertinoLocalisationsDelegate();
 
   @override
@@ -43,10 +37,13 @@ class FallbackCupertinoLocalisationsDelegate extends LocalizationsDelegate<Cuper
   }
 
   @override
-  bool shouldReload(covariant LocalizationsDelegate<CupertinoLocalizations> old) => false;
+  bool shouldReload(
+    covariant LocalizationsDelegate<CupertinoLocalizations> old,
+  ) => false;
 }
 
-class FallbackMaterialLocalisationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
+class FallbackMaterialLocalisationsDelegate
+    extends LocalizationsDelegate<MaterialLocalizations> {
   const FallbackMaterialLocalisationsDelegate();
 
   @override
@@ -58,7 +55,9 @@ class FallbackMaterialLocalisationsDelegate extends LocalizationsDelegate<Materi
   }
 
   @override
-  bool shouldReload(covariant LocalizationsDelegate<MaterialLocalizations> old) => false;
+  bool shouldReload(
+    covariant LocalizationsDelegate<MaterialLocalizations> old,
+  ) => false;
 }
 
 class ProsperityApp extends StatelessWidget {

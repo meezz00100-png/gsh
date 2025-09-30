@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
-import 'package:harari_prosperity_app/shared/services/supabase_service.dart';
+import 'package:harari_prosperity_app/shared/services/auth_service.dart';
+import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _supabaseService = SupabaseService();
+  final _authService = AuthService();
 
   bool _isLoading = false;
   bool _obscurePassword = true;
@@ -87,19 +88,18 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     try {
-      final response = await _supabaseService.auth.signUp(
+      final response = await _authService.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
 
       if (response.user != null) {
+        await AuthStateManager().onAuthSuccess(response);
         if (mounted) {
           // Show success message
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text(
-                'Account created successfully! Please check your email to verify your account.',
-              ),
+              content: Text('Account created successfully!'),
               backgroundColor: Colors.green,
               duration: Duration(seconds: 4),
             ),

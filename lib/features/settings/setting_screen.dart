@@ -53,9 +53,16 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _showDeleteConfirmation(BuildContext context) {
+  void _showDeleteConfirmation(BuildContext context) async {
     final authService = AuthService();
-    final userId = authService.currentUser?.id;
+    final user = await authService.getCurrentUser();
+    final userId = user?.id;
+    if (userId == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('User not authenticated')));
+      return;
+    }
     showDialog(
       context: context,
       builder: (context) => DeleteAccountDialog(

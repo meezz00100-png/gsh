@@ -7,7 +7,7 @@ import 'package:harari_prosperity_app/shared/constants.dart';
 import 'package:harari_prosperity_app/shared/widgets/confirmation_dialog.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -147,16 +147,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   );
 
                   if (confirmed != true) return;
-                  
+
                   try {
-                    // Sign out from Supabase first
-                    await Supabase.instance.client.auth.signOut();
+                    // Sign out via API
+                    await AuthStateManager().signOut();
                   } catch (e) {
                     debugPrint('Error during sign out: $e');
-                  } finally {
-                    // Always navigate to choice screen in finally block
                     if (mounted) {
-                      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                      Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pushNamedAndRemoveUntil(
                         AppRoutes.choice,
                         (route) => false,
                       );

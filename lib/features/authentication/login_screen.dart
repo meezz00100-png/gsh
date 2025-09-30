@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
-import 'package:harari_prosperity_app/shared/services/supabase_service.dart';
+import 'package:harari_prosperity_app/shared/services/auth_service.dart';
+import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _supabaseService = SupabaseService();
+  final _authService = AuthService();
 
   bool _isLoading = false;
   bool _obscurePassword = true;
@@ -69,12 +70,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final response = await _supabaseService.auth.signIn(
+      final response = await _authService.signIn(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
 
       if (response.user != null) {
+        await AuthStateManager().onAuthSuccess(response);
         if (mounted) {
           Navigator.pushNamedAndRemoveUntil(
             context,

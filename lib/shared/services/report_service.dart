@@ -1,17 +1,18 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import '../models/report_model.dart';
 import 'database_service.dart';
 
 class ReportService {
   final DatabaseService _databaseService = DatabaseService();
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final AuthService _authService = AuthService();
 
   static const String _tableName = 'reports';
 
   // Save or update a report
   Future<Report> saveReport(Report report) async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
@@ -23,15 +24,13 @@ class ReportService {
 
       if (report.id == null) {
         // Create new report
-        final newReportData = reportData.copyWith(
-          createdAt: DateTime.now(),
-        );
-        
+        final newReportData = reportData.copyWith(createdAt: DateTime.now());
+
         final result = await _databaseService.insert(
           table: _tableName,
           data: newReportData.toJson()..remove('id'),
         );
-        
+
         if (result.isNotEmpty) {
           return Report.fromJson(result.first);
         } else {
@@ -45,7 +44,7 @@ class ReportService {
           where: 'id',
           whereValue: report.id,
         );
-        
+
         if (result.isNotEmpty) {
           return Report.fromJson(result.first);
         } else {
@@ -60,7 +59,8 @@ class ReportService {
   // Get all reports for current user
   Future<List<Report>> getUserReports() async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
@@ -82,18 +82,17 @@ class ReportService {
   // Get completed reports only
   Future<List<Report>> getCompletedReports() async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
 
+      final queryParams =
+          'user_id=$userId&status=completed&_sort=created_at&_order=desc';
       final result = await _databaseService.customQuery(
         table: _tableName,
-        queryBuilder: (query) => query
-            .select()
-            .eq('user_id', userId)
-            .eq('status', 'completed')
-            .order('created_at', ascending: false),
+        queryParams: queryParams,
       );
 
       return result.map((json) => Report.fromJson(json)).toList();
@@ -105,18 +104,17 @@ class ReportService {
   // Get draft reports only
   Future<List<Report>> getDraftReports() async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
 
+      final queryParams =
+          'user_id=$userId&status=draft&_sort=updated_at&_order=desc';
       final result = await _databaseService.customQuery(
         table: _tableName,
-        queryBuilder: (query) => query
-            .select()
-            .eq('user_id', userId)
-            .eq('status', 'draft')
-            .order('updated_at', ascending: false),
+        queryParams: queryParams,
       );
 
       return result.map((json) => Report.fromJson(json)).toList();
@@ -128,18 +126,16 @@ class ReportService {
   // Get a specific report by ID
   Future<Report?> getReportById(String reportId) async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
 
+      final queryParams = 'id=$reportId&user_id=$userId&_limit=1';
       final result = await _databaseService.customQuery(
         table: _tableName,
-        queryBuilder: (query) => query
-            .select()
-            .eq('id', reportId)
-            .eq('user_id', userId)
-            .limit(1),
+        queryParams: queryParams,
       );
 
       if (result.isNotEmpty) {
@@ -154,7 +150,8 @@ class ReportService {
   // Mark report as completed
   Future<Report> completeReport(String reportId) async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
@@ -182,7 +179,8 @@ class ReportService {
   // Delete a report
   Future<void> deleteReport(String reportId) async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
@@ -211,18 +209,17 @@ class ReportService {
     String? contentType,
   }) async {
     try {
-      final userId = _supabase.auth.currentUser?.id;
+      final user = await _authService.getCurrentUser();
+      final userId = user?.id;
       if (userId == null) {
         throw Exception('User not authenticated');
       }
 
       final filePath = 'reports/$userId/$reportId/$fileName';
-      
+
       final fileUrl = await _databaseService.uploadFile(
-        bucket: 'report-attachments',
         fileName: filePath,
         fileBytes: fileBytes,
-        contentType: contentType,
       );
 
       return fileUrl;
@@ -232,7 +229,10 @@ class ReportService {
   }
 
   // Add attachment URL to report
-  Future<Report> addAttachmentToReport(String reportId, String attachmentUrl) async {
+  Future<Report> addAttachmentToReport(
+    String reportId,
+    String attachmentUrl,
+  ) async {
     try {
       final report = await getReportById(reportId);
       if (report == null) {
@@ -242,9 +242,7 @@ class ReportService {
       final updatedAttachments = List<String>.from(report.attachments)
         ..add(attachmentUrl);
 
-      return await saveReport(report.copyWith(
-        attachments: updatedAttachments,
-      ));
+      return await saveReport(report.copyWith(attachments: updatedAttachments));
     } catch (e) {
       throw Exception('Error adding attachment to report: $e');
     }
@@ -258,9 +256,7 @@ class ReportService {
         throw Exception('Report not found');
       }
 
-      return await saveReport(report.copyWith(
-        linkAttachment: linkUrl,
-      ));
+      return await saveReport(report.copyWith(linkAttachment: linkUrl));
     } catch (e) {
       throw Exception('Error adding link to report: $e');
     }
