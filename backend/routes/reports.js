@@ -118,7 +118,7 @@ router.get('/', protect, async (req, res) => {
 // @route   GET /api/reports/:id
 // @desc    Get single report by ID
 // @access  Private
-router.get('/:id', protect, checkOwnership('userId'), async (req, res) => {
+router.get('/:id', protect, async (req, res) => {
   try {
     const report = await Report.findById(req.params.id).populate('userId', 'email userMetadata');
 
@@ -128,8 +128,8 @@ router.get('/:id', protect, checkOwnership('userId'), async (req, res) => {
       });
     }
 
-    // Check ownership
-    if (!req.resourceOwnerCheck(report)) {
+    // Check ownership - ensure the report belongs to the authenticated user
+    if (report.userId._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: 'Not authorized to view this report'
       });
@@ -162,9 +162,16 @@ router.post('/', protect, validateReport, async (req, res) => {
     const reportData = { ...req.body };
     reportData.userId = req.user._id;
 
-    // Clean up the data, remove empty strings and convert to null if needed
+    // Clean up the data - only convert empty strings to null for optional fields
+    // Keep string fields as empty strings to match schema expectations
+    const stringFields = ['name', 'reportType', 'type', 'receiverName', 'objective',
+                         'description', 'importance', 'mainPoints', 'sources', 'roles',
+                         'trends', 'themes', 'implications', 'scenarios', 'futurePlans',
+                         'approvingBody', 'senderName', 'role', 'date', 'status'];
+
     Object.keys(reportData).forEach(key => {
-      if (reportData[key] === '') {
+      // Only convert to null if it's not a string field and is empty
+      if (reportData[key] === '' && !stringFields.includes(key)) {
         reportData[key] = null;
       }
     });
@@ -191,7 +198,7 @@ router.post('/', protect, validateReport, async (req, res) => {
 // @route   PUT /api/reports/:id
 // @desc    Update report
 // @access  Private
-router.put('/:id', protect, checkOwnership('userId'), validateReport, async (req, res) => {
+router.put('/:id', protect, validateReport, async (req, res) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
@@ -210,7 +217,8 @@ router.put('/:id', protect, checkOwnership('userId'), validateReport, async (req
       });
     }
 
-    if (!req.resourceOwnerCheck(report)) {
+    // Check ownership - ensure the report belongs to the authenticated user
+    if (report.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: 'Not authorized to update this report'
       });
@@ -218,9 +226,16 @@ router.put('/:id', protect, checkOwnership('userId'), validateReport, async (req
 
     const updateData = { ...req.body };
 
-    // Clean up the data
+    // Clean up the data - only convert empty strings to null for optional fields
+    // Keep string fields as empty strings to match schema expectations
+    const stringFields = ['name', 'reportType', 'type', 'receiverName', 'objective',
+                         'description', 'importance', 'mainPoints', 'sources', 'roles',
+                         'trends', 'themes', 'implications', 'scenarios', 'futurePlans',
+                         'approvingBody', 'senderName', 'role', 'date', 'status'];
+
     Object.keys(updateData).forEach(key => {
-      if (updateData[key] === '') {
+      // Only convert to null if it's not a string field and is empty
+      if (updateData[key] === '' && !stringFields.includes(key)) {
         updateData[key] = null;
       }
     });
@@ -248,7 +263,7 @@ router.put('/:id', protect, checkOwnership('userId'), validateReport, async (req
 // @route   DELETE /api/reports/:id
 // @desc    Delete report
 // @access  Private
-router.delete('/:id', protect, checkOwnership('userId'), async (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
   try {
     const report = await Report.findById(req.params.id);
 
@@ -258,7 +273,8 @@ router.delete('/:id', protect, checkOwnership('userId'), async (req, res) => {
       });
     }
 
-    if (!req.resourceOwnerCheck(report)) {
+    // Check ownership - ensure the report belongs to the authenticated user
+    if (report.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: 'Not authorized to delete this report'
       });
@@ -294,7 +310,7 @@ router.delete('/:id', protect, checkOwnership('userId'), async (req, res) => {
 // @route   POST /api/reports/:id/attachments
 // @desc    Upload attachments for report
 // @access  Private
-router.post('/:id/attachments', protect, checkOwnership('userId'), upload.array('attachments', 10), async (req, res) => {
+router.post('/:id/attachments', protect, upload.array('attachments', 10), async (req, res) => {
   try {
     const report = await Report.findById(req.params.id);
 
@@ -304,7 +320,8 @@ router.post('/:id/attachments', protect, checkOwnership('userId'), upload.array(
       });
     }
 
-    if (!req.resourceOwnerCheck(report)) {
+    // Check ownership - ensure the report belongs to the authenticated user
+    if (report.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: 'Not authorized to upload to this report'
       });
@@ -356,7 +373,7 @@ router.post('/:id/attachments', protect, checkOwnership('userId'), upload.array(
 // @route   DELETE /api/reports/:id/attachments/:filename
 // @desc    Delete attachment from report
 // @access  Private
-router.delete('/:id/attachments/:filename', protect, checkOwnership('userId'), async (req, res) => {
+router.delete('/:id/attachments/:filename', protect, async (req, res) => {
   try {
     const report = await Report.findById(req.params.id);
 
@@ -366,7 +383,8 @@ router.delete('/:id/attachments/:filename', protect, checkOwnership('userId'), a
       });
     }
 
-    if (!req.resourceOwnerCheck(report)) {
+    // Check ownership - ensure the report belongs to the authenticated user
+    if (report.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         message: 'Not authorized to delete from this report'
       });

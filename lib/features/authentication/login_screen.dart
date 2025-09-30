@@ -99,6 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleAuthError(String error) {
+    print('Login error received: $error');
     setState(() {
       if (error.contains('Invalid login credentials') ||
           error.contains('Email not confirmed') ||
@@ -109,10 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
         _emailError = context.translate('checkEmailAddress');
       } else if (error.contains('Password')) {
         _passwordError = context.translate('checkPassword');
-      } else if (error.contains('network') || error.contains('connection')) {
-        _emailError = context.translate('networkError');
+      } else if (error.contains('network') ||
+          error.contains('connection') ||
+          error.contains('SocketException') ||
+          error.contains('Connection refused')) {
+        _emailError =
+            'Connection Error: Please check if the server is running and try again.';
       } else {
-        _emailError = context.translate('loginFailed');
+        _emailError = 'Login Error: $error';
       }
     });
   }

@@ -107,10 +107,16 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         status: 'draft',
       );
 
+      print('🔄 Saving report with data: ${report.toJson()}');
       _currentReport = await _reportService.saveReport(report);
+      print('✅ Report saved successfully. ID: ${_currentReport?.id}');
       setState(() => _errorMessage = null);
     } catch (e) {
-      setState(() => _errorMessage = context.translate('failedToSaveProgress'));
+      print('❌ Error saving report: $e');
+      setState(
+        () =>
+            _errorMessage = '${context.translate('failedToSaveProgress')}: $e',
+      );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -301,8 +307,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         TextFormField(
           decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['name'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterName') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterName')
+              : null,
           onSaved: (value) => formData['name'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -311,16 +318,18 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
             labelText: context.translate('reportType'),
           ),
           initialValue: formData['reportType'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterReportType') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterReportType')
+              : null,
           onSaved: (value) => formData['reportType'] = value ?? '',
         ),
         const SizedBox(height: 20),
         TextFormField(
           decoration: InputDecoration(labelText: context.translate('type')),
           initialValue: formData['type'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterType') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterType')
+              : null,
           onSaved: (value) => formData['type'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -329,8 +338,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
             labelText: context.translate('receiverName'),
           ),
           initialValue: formData['receiverName'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterReceiverName') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterReceiverName')
+              : null,
           onSaved: (value) => formData['receiverName'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -339,8 +349,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
             labelText: context.translate('objectiveOfReport'),
           ),
           initialValue: formData['objective'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterObjective') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterObjective')
+              : null,
           onSaved: (value) => formData['objective'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -350,8 +361,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['description'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterDescription') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterDescription')
+              : null,
           onSaved: (value) => formData['description'] = value ?? '',
         ),
       ],
@@ -373,8 +385,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['importance'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterImportance') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterImportance')
+              : null,
           onSaved: (value) => formData['importance'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -389,8 +402,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['mainPoints'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterMainPoints') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterMainPoints')
+              : null,
           onSaved: (value) => formData['mainPoints'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -405,8 +419,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['sources'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterSources') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterSources')
+              : null,
           onSaved: (value) => formData['sources'] = value ?? '',
         ),
       ],
@@ -428,8 +443,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['roles'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterRoles') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterRoles')
+              : null,
           onSaved: (value) => formData['roles'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -444,8 +460,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['trends'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterTrends') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterTrends')
+              : null,
           onSaved: (value) => formData['trends'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -460,8 +477,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['themes'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterThemes') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterThemes')
+              : null,
           onSaved: (value) => formData['themes'] = value ?? '',
         ),
       ],
@@ -483,8 +501,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['implications'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterImplications') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterImplications')
+              : null,
           onSaved: (value) => formData['implications'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -499,8 +518,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['scenarios'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterScenarios') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterScenarios')
+              : null,
           onSaved: (value) => formData['scenarios'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -515,8 +535,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
           ),
           initialValue: formData['futurePlans'],
           maxLines: 3,
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterFuturePlans') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterFuturePlans')
+              : null,
           onSaved: (value) => formData['futurePlans'] = value ?? '',
         ),
       ],
@@ -535,8 +556,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         TextFormField(
           decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['approvingBody'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterApprovingBody') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterApprovingBody')
+              : null,
           onSaved: (value) => formData['approvingBody'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -548,8 +570,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         TextFormField(
           decoration: InputDecoration(labelText: context.translate('name')),
           initialValue: formData['senderName'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterSenderName') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterSenderName')
+              : null,
           onSaved: (value) => formData['senderName'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -561,8 +584,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
         TextFormField(
           decoration: InputDecoration(labelText: context.translate('role')),
           initialValue: formData['role'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterRole') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterRole')
+              : null,
           onSaved: (value) => formData['role'] = value ?? '',
         ),
         const SizedBox(height: 20),
@@ -576,8 +600,9 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
             labelText: context.translate('timeMonthDate'),
           ),
           initialValue: formData['date'],
-          validator: (value) =>
-              value?.isEmpty == true ? context.translate('pleaseEnterDate') : null,
+          validator: (value) => value?.isEmpty == true
+              ? context.translate('pleaseEnterDate')
+              : null,
           onSaved: (value) => formData['date'] = value ?? '',
         ),
       ],

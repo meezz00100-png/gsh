@@ -26,8 +26,12 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final args = ModalRoute.of(context)?.settings.arguments;
+      print('🔄 AttachmentScreen initState - arguments: $args');
       if (args is String) {
         setState(() => _reportId = args);
+        print('✅ Report ID set: $_reportId');
+      } else {
+        print('❌ Invalid arguments type: ${args.runtimeType}');
       }
     });
   }
@@ -52,7 +56,9 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
         });
       }
     } catch (e) {
-      setState(() => _errorMessage = '${context.translate('failedToPickFiles')}: $e');
+      setState(
+        () => _errorMessage = '${context.translate('failedToPickFiles')}: $e',
+      );
     }
   }
 
@@ -103,7 +109,10 @@ class _AttachmentScreenState extends State<AttachmentScreen> {
 
       setState(() => _errorMessage = null);
     } catch (e) {
-      setState(() => _errorMessage = '${context.translate('failedToUploadAttachments')}: $e');
+      setState(
+        () => _errorMessage =
+            '${context.translate('failedToUploadAttachments')}: $e',
+      );
     } finally {
       setState(() => _isLoading = false);
     }

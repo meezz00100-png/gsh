@@ -1,8 +1,11 @@
 class ApiConfig {
   // Backend server URL - update this to match your backend
   static const String baseUrl =
-      'http://10.232.199.223:3000/api'; // For Android emulator
+      'http://10.232.199.224:3000/api'; // Actual host IP address
   // For iOS simulator or web: 'http://localhost:3000/api'
+
+  // Debug mode to help troubleshoot connection issues
+  static const bool debugMode = true;
 
   // Auth endpoints
   static const String signUp = '/auth/signup';

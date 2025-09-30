@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Report {
   final String? id;
   final String name;
@@ -56,64 +58,97 @@ class Report {
   });
 
   Map<String, dynamic> toJson() {
+    // Helper function to ensure all values are JSON-serializable
+    dynamic serializeValue(dynamic value) {
+      if (value == null) return null;
+      if (value is String) return value;
+      if (value is DateTime) return value.toIso8601String();
+      if (value is List) return value; // Lists are already serializable
+      if (value is Map) return value; // Maps are already serializable
+      // For any other type, convert to string
+      return value.toString();
+    }
+
     return {
-      'id': id,
-      'name': name,
-      'report_type': reportType,
-      'type': type,
-      'receiver_name': receiverName,
-      'objective': objective,
-      'description': description,
-      'importance': importance,
-      'main_points': mainPoints,
-      'sources': sources,
-      'roles': roles,
-      'trends': trends,
-      'themes': themes,
-      'implications': implications,
-      'scenarios': scenarios,
-      'future_plans': futurePlans,
-      'approving_body': approvingBody,
-      'sender_name': senderName,
-      'role': role,
-      'date': date,
-      'user_id': userId,
-      'attachments': attachments,
-      'link_attachment': linkAttachment,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-      'status': status,
+      'id': serializeValue(id),
+      'name': serializeValue(name),
+      'reportType': serializeValue(reportType),
+      'type': serializeValue(type),
+      'receiverName': serializeValue(receiverName),
+      'objective': serializeValue(objective),
+      'description': serializeValue(description),
+      'importance': serializeValue(importance),
+      'mainPoints': serializeValue(mainPoints),
+      'sources': serializeValue(sources),
+      'roles': serializeValue(roles),
+      'trends': serializeValue(trends),
+      'themes': serializeValue(themes),
+      'implications': serializeValue(implications),
+      'scenarios': serializeValue(scenarios),
+      'futurePlans': serializeValue(futurePlans),
+      'approvingBody': serializeValue(approvingBody),
+      'senderName': serializeValue(senderName),
+      'role': serializeValue(role),
+      'date': serializeValue(date),
+      'userId': serializeValue(userId),
+      'attachments': serializeValue(attachments),
+      'linkAttachment': serializeValue(linkAttachment),
+      'createdAt': serializeValue(createdAt),
+      'updatedAt': serializeValue(updatedAt),
+      'status': serializeValue(status),
     };
   }
 
   factory Report.fromJson(Map<String, dynamic> json) {
+    // Helper function to safely convert to string
+    String safeString(dynamic value) {
+      if (value == null) return '';
+      if (value is String) return value;
+      if (value is Map || value is List) return jsonEncode(value);
+      return value.toString();
+    }
+
     return Report(
       id: json['id'],
-      name: json['name'] ?? '',
-      reportType: json['report_type'] ?? '',
-      type: json['type'] ?? '',
-      receiverName: json['receiver_name'] ?? '',
-      objective: json['objective'] ?? '',
-      description: json['description'] ?? '',
-      importance: json['importance'] ?? '',
-      mainPoints: json['main_points'] ?? '',
-      sources: json['sources'] ?? '',
-      roles: json['roles'] ?? '',
-      trends: json['trends'] ?? '',
-      themes: json['themes'] ?? '',
-      implications: json['implications'] ?? '',
-      scenarios: json['scenarios'] ?? '',
-      futurePlans: json['future_plans'] ?? '',
-      approvingBody: json['approving_body'] ?? '',
-      senderName: json['sender_name'] ?? '',
-      role: json['role'] ?? '',
-      date: json['date'] ?? '',
-      userId: json['user_id'],
-      attachments: List<String>.from(json['attachments'] ?? []),
-      linkAttachment: json['link_attachment'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-      status: json['status'] ?? 'draft',
+      name: safeString(json['name']),
+      reportType: safeString(json['reportType'] ?? json['report_type']),
+      type: safeString(json['type']),
+      receiverName: safeString(json['receiverName'] ?? json['receiver_name']),
+      objective: safeString(json['objective']),
+      description: safeString(json['description']),
+      importance: safeString(json['importance']),
+      mainPoints: safeString(json['mainPoints'] ?? json['main_points']),
+      sources: safeString(json['sources']),
+      roles: safeString(json['roles']),
+      trends: safeString(json['trends']),
+      themes: safeString(json['themes']),
+      implications: safeString(json['implications']),
+      scenarios: safeString(json['scenarios']),
+      futurePlans: safeString(json['futurePlans'] ?? json['future_plans']),
+      approvingBody: safeString(
+        json['approvingBody'] ?? json['approving_body'],
+      ),
+      senderName: safeString(json['senderName'] ?? json['sender_name']),
+      role: safeString(json['role']),
+      date: safeString(json['date']),
+      userId: json['userId'] ?? json['user_id'],
+      attachments: json['attachments'] != null
+          ? List<String>.from(json['attachments'])
+          : [],
+      linkAttachment: safeString(
+        json['linkAttachment'] ?? json['link_attachment'],
+      ),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
+          : json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : DateTime.now(),
+      status: safeString(json['status']),
     );
   }
 
@@ -177,13 +212,13 @@ class Report {
 
   String get summary {
     if (description.isNotEmpty) {
-      return description.length > 100 
-          ? '${description.substring(0, 100)}...' 
+      return description.length > 100
+          ? '${description.substring(0, 100)}...'
           : description;
     }
     if (objective.isNotEmpty) {
-      return objective.length > 100 
-          ? '${objective.substring(0, 100)}...' 
+      return objective.length > 100
+          ? '${objective.substring(0, 100)}...'
           : objective;
     }
     return 'No description available';

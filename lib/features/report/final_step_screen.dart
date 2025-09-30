@@ -29,14 +29,20 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
   }
 
   Future<void> _finishReport() async {
+    print('🔄 _finishReport called');
+    print('📄 Report ID: $_reportId');
+
     if (_reportId == null) {
+      print('❌ No report ID found');
       setState(() => _errorMessage = 'No report ID found');
       return;
     }
 
     setState(() => _isLoading = true);
     try {
+      print('🔄 Calling completeReport service...');
       await _reportService.completeReport(_reportId!);
+      print('✅ Report completed successfully');
       setState(() => _errorMessage = null);
 
       // Show success message and navigate
@@ -50,6 +56,7 @@ class _FinalStepScreenState extends State<FinalStepScreen> {
         Navigator.pushReplacementNamed(context, AppRoutes.navigation);
       }
     } catch (e) {
+      print('❌ Error completing report: $e');
       setState(() => _errorMessage = 'Failed to complete report: $e');
     } finally {
       setState(() => _isLoading = false);
