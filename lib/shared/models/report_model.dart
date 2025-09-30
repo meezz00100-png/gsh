@@ -104,6 +104,10 @@ class Report {
     String safeString(dynamic value) {
       if (value == null) return '';
       if (value is String) return value;
+      if (value is Map && value.containsKey('\$oid')) {
+        // Handle MongoDB ObjectId format: {"$oid": "actual_id"}
+        return value['\$oid'] ?? jsonEncode(value);
+      }
       if (value is Map || value is List) return jsonEncode(value);
       return value.toString();
     }
@@ -131,7 +135,9 @@ class Report {
       senderName: safeString(json['senderName'] ?? json['sender_name']),
       role: safeString(json['role']),
       date: safeString(json['date']),
-      userId: json['userId'] ?? json['user_id'],
+      userId: json['userId'] != null
+          ? safeString(json['userId'])
+          : (json['user_id'] != null ? safeString(json['user_id']) : null),
       attachments: json['attachments'] != null
           ? List<String>.from(json['attachments'])
           : [],
