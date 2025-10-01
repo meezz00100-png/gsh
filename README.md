@@ -1,655 +1,729 @@
-# Harari Prosperity App
+# Harari Prosperity App 📱
+
+**Empowering Political Analysis and Community Development Through Technology**
 
 A comprehensive Flutter mobile application designed for the Harari Regional Prosperity Party in Ethiopia. This app serves as a digital platform for political analysis reporting, enabling party members and officials to submit detailed reports with supporting documentation to party leadership.
 
-## Overview
+---
 
-Imagine you're a dedicated party member in Ethiopia's vibrant Harari region, passionate about contributing to your community's prosperity. The Harari Prosperity App transforms how political insights are shared and analyzed, making it easier for you to document observations, analyze trends, and propose actionable recommendations that can shape your region's future.
+## 📋 Table of Contents
 
-The Harari Prosperity App is a specialized mobile application that digitizes the political analysis and reporting process for the Harari Regional Prosperity Party. It provides a structured, user-friendly interface for creating comprehensive reports that include political analysis, stakeholder mapping, trend analysis, and future planning recommendations. Think of it as your digital notebook and communication bridge to party leadership.
+- [🎯 Overview](#-overview)
+- [🛠 Technical Stack](#-technical-stack)
+- [🚀 Quick Start](#-quick-start)
+- [📁 Project Structure](#-project-structure)
+- [🔐 Authentication Flow](#-authentication-flow)
+- [📋 Report Creation Process](#-report-creation-process)
+- [🌍 Multi-Language Support](#-multi-language-support)
+- [🔧 Development Guidelines](#-development-guidelines)
+- [🚀 Deployment](#-deployment)
+- [🔒 Security Features](#-security-features)
+- [📊 Database Schema](#-database-schema)
+- [🧪 Testing](#-testing)
+- [🚨 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📞 Support & Contact](#-support--contact)
+- [📈 Version History](#-version-history)
 
-### Target Users
-- **Party Officials and Members**: Active participants in regional politics who need to report observations and insights
-- **Political Analysts and Researchers**: Experts who conduct in-depth analysis of political trends and stakeholder dynamics
-- **Regional Coordinators**: Leaders who coordinate activities and need comprehensive reporting tools
-- **Policy Advisors**: Professionals who provide recommendations for future planning and strategic decisions
+---
 
-### Core Purpose
-- **Structured Reporting**: A guided 5-step wizard that ensures comprehensive, consistent report creation
-- **Document Management**: Attach files, images, and links to provide evidence and context for your analysis
-- **Multi-language Support**: Full support for English, Amharic (አማርኛ), and Oromo (Afaan Oromoo) languages
-- **Secure Authentication**: Robust user management powered by Supabase with email verification
-- **Progress Tracking**: Save drafts as you work and track report approval status
-- **Collaborative Platform**: Connect individual insights into a collective understanding of regional dynamics
+## 🎯 Overview
 
-## Key Features
+Welcome to the **Harari Prosperity App** - where political engagement meets modern technology. This application represents a significant step forward in how the Harari Regional Prosperity Party conducts political analysis and reporting.
 
-### Authentication System
-- **Secure Login/Signup**: Email and password authentication
-- **Account Verification**: Email verification for new accounts
-- **Password Management**: Reset password and change password functionality
-- **Terms & Conditions**: Legal agreement acceptance flow
-- **Session Management**: Automatic logout and session handling
+### 🤝 What We Do
 
-### Report Creation Wizard
-The app features a comprehensive 5-step report creation process:
+The **Harari Prosperity App** is a specialized mobile application that digitizes the political analysis and reporting process for the Harari Regional Prosperity Party. It provides a structured, user-friendly interface for creating comprehensive reports that include political analysis, stakeholder mapping, trend analysis, and future planning recommendations.
 
-#### Step 1: Basic Information
+Think of it as your digital political notebook - a tool that transforms how you document observations, analyze trends, and propose actionable recommendations that can shape your region's future.
+
+### 👥 Who We Serve
+
+We're proud to support the following key stakeholders in Ethiopia's vibrant Harari region:
+
+- **🏛️ Party Officials and Members**: Active participants in regional politics who need to report observations and insights
+- **🔍 Political Analysts and Researchers**: Experts who conduct in-depth analysis of political trends and stakeholder dynamics
+- **🎯 Regional Coordinators**: Leaders who coordinate activities and need comprehensive reporting tools
+- **📋 Policy Advisors**: Professionals who provide recommendations for future planning and strategic decisions
+
+### ✨ Key Capabilities
+
+Here are the core features that make our platform powerful yet easy to use:
+
+- **📋 Structured Reporting**: A guided 5-step wizard that ensures comprehensive, consistent report creation
+- **📎 Document Management**: Attach files, images, and links to provide evidence and context for your analysis
+- **🌍 Multi-language Support**: Full support for English, Amharic (አማርኛ), and Oromo (Afaan Oromoo) languages
+- **🔐 Secure Authentication**: Robust user management with JWT tokens and email verification
+- **💾 Auto-save**: Draft reports are automatically saved as you work - never lose your progress
+- **📊 Progress Tracking**: Save drafts as you work and track report approval status
+- **🤝 Collaborative Platform**: Connect individual insights into a collective understanding of regional dynamics
+
+---
+
+*Ready to get started? Let's walk through the technical foundation and setup process.*
+
+## 🛠 Technical Stack
+
+*Building on proven technologies to ensure reliability, performance, and maintainability.*
+
+### Frontend (Mobile App)
+- **Flutter 3.8.1+** - Google's cross-platform mobile development framework for beautiful, native-like applications
+- **Dart** - Flutter's programming language, designed for building fast, scalable applications
+- **Material Design** - Google's comprehensive design system for consistent, intuitive user interfaces
+
+### Backend & Database
+- **Node.js/Express** - Robust JavaScript runtime and web framework for scalable server-side applications
+- **MongoDB** - Flexible NoSQL database with Mongoose ODM for efficient data modeling and querying
+- **JWT Authentication** - Industry-standard JSON Web Tokens for secure, stateless authentication
+
+### State Management & Storage
+- **Provider** - Flutter's recommended state management solution for reactive, maintainable app state
+- **SharedPreferences** - Secure local key-value storage for user preferences and app settings
+
+### Key Dependencies
+
+Here's what powers our application under the hood:
+
+```yaml
+# Core Flutter packages
+flutter_localizations: sdk: flutter    # Multi-language support
+provider: ^6.1.1                       # State management
+shared_preferences: ^2.2.2             # Local storage
+
+# File & Network handling
+file_picker: ^8.0.0+1                  # File selection and upload
+http: ^1.2.1                          # Network requests and API communication
+url_launcher: ^6.2.5                  # External link handling
+
+# Document processing
+printing: ^5.12.0                     # Document printing capabilities
+pdf: ^3.10.7                          # PDF generation and handling
+
+# Utilities
+path_provider: ^2.1.3                 # File system access
+share_plus: ^9.0.0                    # Content sharing functionality
+```
+
+*Each dependency is carefully chosen for its reliability, community support, and alignment with Flutter best practices.*
+
+## 🚀 Quick Start
+
+This guide will help you set up the complete development environment on a new PC. Follow these steps in order.
+
+### 📋 Prerequisites
+
+Before starting, ensure you have the following installed:
+
+| Tool | Version | Installation Guide |
+|------|---------|-------------------|
+| **Flutter SDK** | 3.8.1+ | [Install Flutter](https://docs.flutter.dev/get-started/install) |
+| **Android Studio** | Latest | [Download Android Studio](https://developer.android.com/studio) |
+| **Node.js** | 18+ | [Download Node.js](https://nodejs.org/) |
+| **MongoDB** | 4.4+ | [Install MongoDB](https://docs.mongodb.com/manual/installation/) |
+| **Git** | Any recent | [Install Git](https://git-scm.com/downloads) |
+
+### 1. Environment Setup
+
+#### Step 1.1: Install Flutter SDK
+```bash
+# Download Flutter SDK
+git clone https://github.com/flutter/flutter.git -b stable
+cd flutter
+
+# Add Flutter to PATH (add this to your ~/.bashrc or ~/.zshrc)
+export PATH="$PATH:`pwd`/bin"
+
+# Reload your shell or restart terminal
+source ~/.bashrc  # or source ~/.zshrc
+
+# Verify Flutter installation
+flutter doctor
+```
+
+**Expected output:**
+```
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel stable, 3.8.1, on Linux, locale en_US.UTF-8)
+[✓] Android toolchain - develop for Android devices (Android SDK version 33.0.0)
+[!] Android Studio (not installed)
+[✓] VS Code (version 1.74.0)
+...
+```
+
+#### Step 1.2: Install Android Studio (for Android development)
+```bash
+# Download and install Android Studio from: https://developer.android.com/studio
+# Follow the setup wizard and install Android SDK
+
+# Set up Android environment variables
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Accept Android licenses
+flutter doctor --android-licenses
+```
+
+#### Step 1.3: Install Node.js and MongoDB
+```bash
+# Install Node.js (Ubuntu/Debian)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install MongoDB (Ubuntu/Debian)
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+
+# Start MongoDB service
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+# Verify installations
+node --version
+npm --version
+mongosh --version
+```
+
+### 2. Project Setup
+
+#### Step 2.1: Clone the Repository
+```bash
+# Clone the project
+git clone https://github.com/your-repo/harari_prosperity_app.git
+cd harari_prosperity_app
+
+# Verify project structure
+ls -la
+```
+
+#### Step 2.2: Backend Setup
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install Node.js dependencies
+npm install
+
+# Copy environment configuration
+cp .env.example .env
+
+# Edit .env file with your MongoDB connection string
+nano .env  # or use your preferred editor
+```
+
+**Required .env configuration:**
+```env
+MONGODB_URI=mongodb://localhost:27017/harari_prosperity_app
+JWT_SECRET=your-super-secret-jwt-key-here
+PORT=3000
+NODE_ENV=development
+```
+
+```bash
+# Start the backend server
+npm run dev
+
+# You should see: "Server running on port 3000"
+# Keep this terminal running
+```
+
+**Verify backend is running:**
+```bash
+# Open a new terminal and test the API
+curl http://localhost:3000/health
+# Expected: {"status": "OK", "message": "Server is running"}
+```
+
+#### Step 2.3: Mobile App Setup
+```bash
+# Go back to project root
+cd ..
+
+# Install Flutter dependencies
+flutter pub get
+
+# Verify Flutter setup
+flutter doctor
+
+# Connect Android device or start emulator
+flutter devices
+
+# Run the app
+flutter run
+
+# The app should launch on your device/emulator
+```
+
+### 3. Verification Steps
+
+#### Step 3.1: Verify Complete Setup
+```bash
+# Check if all services are running
+
+# 1. MongoDB should be running
+sudo systemctl status mongod
+
+# 2. Backend server should be accessible
+curl http://localhost:3000
+
+# 3. Flutter app should be running
+# You should see the Harari Prosperity App on your device/emulator
+```
+
+#### Step 3.2: Test Core Functionality
+1. **App Launch**: App should open to splash screen
+2. **Authentication**: Try creating a new account or logging in
+3. **Report Creation**: Navigate through the 5-step report wizard
+4. **File Attachments**: Test uploading a file in the attachment screen
+
+### 4. Development Workflow
+
+#### Running in Development Mode
+```bash
+# Terminal 1: Backend server (with auto-reload)
+cd backend && npm run dev
+
+# Terminal 2: Flutter app (with hot-reload)
+flutter run
+```
+
+#### Building for Production
+```bash
+# Backend production build
+cd backend && npm run start
+
+# Flutter production builds
+flutter build apk --release          # Android APK
+flutter build appbundle --release    # Google Play bundle
+flutter build ios --release          # iOS (macOS only)
+```
+
+### 5. Common Issues & Solutions
+
+#### Issue: Flutter Doctor Shows Errors
+```bash
+# Fix Android setup
+flutter doctor --android-licenses
+
+# Update Android SDK
+flutter doctor -v  # See detailed errors
+sdkmanager --update
+
+# Clear Flutter cache
+flutter clean
+flutter pub get
+```
+
+#### Issue: MongoDB Connection Failed
+```bash
+# Check MongoDB status
+sudo systemctl status mongod
+
+# Start MongoDB if stopped
+sudo systemctl start mongod
+
+# Check MongoDB logs
+tail -f /var/log/mongodb/mongod.log
+
+# Reset MongoDB data (if needed)
+sudo systemctl stop mongod
+sudo rm -rf /var/lib/mongodb/*
+sudo systemctl start mongod
+```
+
+#### Issue: Backend Won't Start
+```bash
+# Check Node.js version
+node --version  # Should be 18+
+
+# Clear npm cache
+npm cache clean --force
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+
+# Check for port conflicts
+lsof -i :3000  # See what's using port 3000
+```
+
+#### Issue: App Won't Build
+```bash
+# Clean Flutter cache
+flutter clean
+flutter pub get
+
+# Update dependencies
+flutter pub upgrade
+
+# Check for platform-specific issues
+flutter doctor -v
+```
+
+### 6. First Run Checklist
+
+- [ ] Flutter SDK installed and configured
+- [ ] Android Studio installed (for Android development)
+- [ ] Node.js 18+ installed
+- [ ] MongoDB installed and running
+- [ ] Project cloned and dependencies installed
+- [ ] Backend server running on localhost:3000
+- [ ] Flutter app launches successfully
+- [ ] Can navigate through authentication flow
+- [ ] Can access report creation wizard
+
+### 7. Getting Help
+
+If you encounter issues:
+
+1. **Check the troubleshooting section above**
+2. **Run `flutter doctor -v`** for detailed diagnostics
+3. **Check terminal output** for specific error messages
+4. **Verify all services are running** using the verification commands
+5. **Contact the development team** if issues persist
+
+**Next Steps**: Once everything is set up, read the [Development Guidelines](#-development-guidelines) section to understand the codebase structure and start contributing!
+
+## 📁 Project Structure
+
+*Understanding how our codebase is organized helps you navigate and contribute effectively.*
+
+```
+harari_prosperity_app/
+├── 📱 lib/                          # 🏠 Main Flutter application code
+│   ├── 🎯 features/                 # 🔧 Feature-based modules (organized by functionality)
+│   │   ├── 🔐 authentication/       # User login, signup, password reset
+│   │   ├── 🏠 home/                 # Welcome screen and main dashboard
+│   │   ├── 📊 report/               # Report creation wizard and management
+│   │   ├── ⚙️ settings/             # App settings and user preferences
+│   │   └── ❓ faq/                  # Help system and FAQ
+│   ├── 🛣️ routes/                   # 🧭 App navigation and routing configuration
+│   ├── 🤝 shared/                   # 🔗 Shared utilities and components
+│   │   ├── ⚙️ config/               # ⚙️ Configuration files and API settings
+│   │   ├── 🎨 constants.dart        # 🎨 App colors, themes, and constants
+│   │   ├── 🌐 localization/         # 🌍 Multi-language support and translations
+│   │   ├── 📋 models/               # 📊 Data models (Report, User, etc.)
+│   │   ├── 🔧 services/             # 🔗 Business logic and API services
+│   │   └── 🧩 widgets/              # 🧱 Reusable UI components
+│   └── 🚀 main.dart                 # 🚀 Application entry point
+├── 🔧 backend/                      # 🖥️ Node.js/Express backend API
+│   ├── 📄 server.js                # 🌐 Main server file and application setup
+│   ├── 🛣️ routes/                   # 🛤️ API route handlers (auth, reports, users)
+│   ├── 📋 models/                   # 💾 Database models and schemas
+│   ├── 🔧 middleware/               # 🛡️ Express middleware (auth, validation)
+│   └── 🛠️ utils/                    # 🧰 Utility functions (email, JWT, etc.)
+├── 📱 android/ & 📱 ios/            # 📱 Platform-specific configuration
+├── 🎨 assets/                       # 🎨 Static assets (images, fonts, icons)
+└── 📋 README.md                     # 📖 Project documentation (this file)
+```
+
+### 🏗️ Architecture Philosophy
+
+Our project structure follows the **feature-first architecture** principle:
+
+- **🎯 Features over Layers**: Code is organized by functionality (authentication, reports) rather than technical layers (UI, services, models)
+- **🔗 Shared Resources**: Common utilities, services, and components are centralized for reusability
+- **🧩 Modular Design**: Each feature is self-contained but can easily integrate with others
+- **📱 Platform Separation**: Clear separation between Flutter frontend and Node.js backend
+
+*This structure makes it easy to find relevant code, understand feature boundaries, and maintain consistency across the application.*
+
+---
+
+## 🔐 Authentication Flow
+
+*Understanding how users securely access our platform is fundamental to the app's security model.*
+
+```mermaid
+graph TD
+    A[🚀 App Launch] --> B{🔍 Session Exists?}
+    B -->|✅ Yes| C[🔐 Validate JWT Token]
+    B -->|❌ No| D[📱 Show Login/Signup]
+    C -->|✅ Valid| E[🏠 Navigate to Home]
+    C -->|❌ Invalid| D
+    D --> F[👤 User Login]
+    F --> G[📧 Email Verification]
+    G --> H[✅ Access Granted]
+```
+
+*Our authentication system ensures that only verified party members can access the platform while maintaining a smooth user experience.*
+
+---
+
+## 📋 Report Creation Process
+
+*At the heart of our application is a comprehensive 5-step wizard that guides users through creating detailed political analysis reports.*
+
+The app features a comprehensive 5-step report creation wizard that ensures systematic, thorough political analysis:
+
+### Step 1: 📋 Basic Information
 - Report title and type selection
 - Receiver name and contact details
 - Report objective and brief description
 - Category classification
 
-#### Step 2: Importance & Main Points
+### Step 2: ⭐ Importance & Main Points
 - Strategic importance explanation
 - Key findings and main points
 - Information sources documentation
 - Supporting evidence
 
-#### Step 3: Stakeholder Analysis
+### Step 3: 👥 Stakeholder Analysis
 - Roles and responsibilities of actors
 - Positive and negative trend analysis
 - Key themes identification
 - Stakeholder mapping
 
-#### Step 4: Implications & Scenarios
+### Step 4: 🔮 Implications & Scenarios
 - Potential outcomes and implications
 - Scenario planning and analysis
 - Risk assessment
 - Future projections
 
-#### Step 5: Future Plans & Metadata
+### Step 5: 🚀 Future Plans & Metadata
 - Proposed action plans
 - Timeline and milestones
 - Approving authority details
 - Sender information and role
 
-### File Management
-- **Multiple Attachment Types**: Documents, images, and links
-- **File Upload**: Secure file upload to cloud storage
-- **Link Attachments**: URL validation and storage
-- **Progress Tracking**: Upload progress indicators
+*Each step builds upon the previous one, ensuring comprehensive analysis while maintaining user engagement throughout the process.*
 
-### Multi-language Support
-- **English**: Default language
-- **Amharic (አማርኛ)**: Official language support
-- **Oromo (Afaan Oromoo)**: Regional language support
-- **Dynamic Switching**: Real-time language change
-- **RTL Support**: Right-to-left text support where needed
+---
 
-### Profile Management
-- **User Profile**: View and edit personal information
-- **Username Management**: Change username with validation
-- **Password Security**: Change password with confirmation
-- **Account Settings**: Profile customization options
+## 🌍 Multi-Language Support
 
-### Report History & Tracking
-- **Report History**: View all submitted reports
-- **Status Tracking**: Monitor report approval status
-- **Search & Filter**: Find reports by date, type, or status
-- **Detailed View**: Comprehensive report viewing with attachments
+*Language accessibility is crucial for serving Ethiopia's diverse linguistic landscape.*
 
-### ⚙️ Settings & Configuration
-- **Language Settings**: Change app language
-- **Notification Preferences**: Configure app notifications
-- **Privacy Settings**: Data sharing and privacy controls
-- **Account Management**: Delete account and data export
+The app supports three languages with comprehensive localization:
 
-### Help & Support
-- **FAQ Section**: Comprehensive frequently asked questions
-- **Contact Support**: Direct communication with support team
-- **User Guide**: In-app help and tutorials
-- **Video Tutorials**: Visual guides for complex features
+- **🇺🇸 English** - Default language
+- **🇪🇹 Amharic (አማርኛ)** - Official Ethiopian language
+- **🇪🇹 Oromo (Afaan Oromoo)** - Regional language
 
-## 🛠 Technical Stack
+### Language Implementation
+- **Real-time language switching** without app restart
+- **RTL (Right-to-Left) support** where needed for proper text direction
+- **200+ translated strings** covering all UI elements, error messages, and help content
+- **Culturally appropriate translations** for political context and local sensitivity
 
-### Frontend Framework
-- **Flutter**: Cross-platform mobile development framework
-- **Dart**: Programming language for Flutter apps
-- **Material Design**: Google's design system implementation
+*This ensures that party members can use the app in their preferred language, making political analysis accessible to all stakeholders regardless of their linguistic background.*
 
-### Backend & Database
-- **Supabase**: Open-source Firebase alternative
-  - Authentication service
-  - Real-time database
-  - File storage
-  - API endpoints
+## 🔧 Development Guidelines
 
-### State Management
-- **Provider**: Flutter's recommended state management solution
-- **ChangeNotifier**: Reactive state updates
+### Code Organization
+- **Feature-First Architecture**: Organized by features rather than technical layers
+- **Separation of Concerns**: Clear separation between UI, business logic, and data layers
+- **Provider Pattern**: Reactive state management across the app
 
-### Local Storage
-- **SharedPreferences**: Key-value pair storage for user preferences
-- **Secure Storage**: Encrypted storage for sensitive data
+### Code Quality Standards
+```bash
+# Format code
+flutter format .
 
-### Additional Libraries
-- **flutter_localizations**: Multi-language support
-- **file_picker**: File selection and upload
-- **http**: Network requests and API communication
-- **intl**: Internationalization and localization
-- **shared_preferences**: Local data persistence
-- **supabase_flutter**: Backend integration
-- **provider**: State management
-- **url_launcher**: External link handling
-- **printing**: Document printing capabilities
-- **pdf**: PDF generation and handling
-- **share_plus**: Content sharing functionality
-- **path_provider**: File system access
+# Analyze for issues
+flutter analyze
 
-## Installation & Setup
+# Run tests
+flutter test
 
-### Prerequisites
-- **Flutter SDK**: Version 3.8.1 or higher
-- **Dart SDK**: Included with Flutter
-- **Android Studio**: For Android development
-- **Xcode**: For iOS development (macOS only)
-- **Supabase Account**: For backend services
-
-### Environment Setup
-1. **Install Flutter**:
-   ```bash
-   # Download and install Flutter SDK
-   git clone https://github.com/flutter/flutter.git -b stable
-   export PATH="$PATH:`pwd`/flutter/bin"
-   ```
-
-2. **Verify Installation**:
-   ```bash
-   flutter doctor
-   ```
-
-3. **Set up Supabase**:
-   - Create a Supabase project
-   - Configure authentication settings
-   - Set up database tables for reports and users
-   - Configure file storage buckets
-
-## Project Structure
-
-```
-harari_prosperity_app/
-├── android/                    # Android platform-specific code
-├── ios/                       # iOS platform-specific code
-├── lib/                       # Main Flutter application code
-│   ├── features/              # Feature-based modules
-│   │   ├── authentication/    # Login, signup, password reset
-│   │   │   ├── login_screen.dart
-│   │   │   ├── signup_screen.dart
-│   │   │   ├── splash_screen.dart
-│   │   │   ├── terms_screen.dart
-│   │   │   └── password/
-│   │   ├── home/              # Home screen and welcome
-│   │   │   └── home_screen.dart
-│   │   ├── navigation/        # Main navigation and profile
-│   │   │   ├── navigation_screen.dart
-│   │   │   ├── profile_screen.dart
-│   │   │   └── edit_profile_screen.dart
-│   │   ├── report/            # Report creation and report details
-│   │   │   ├── report_detail_screen.dart
-│   │   │   ├── attachment_screen.dart
-│   │   │   ├── final_step_screen.dart
-│   │   │   ├── report_history_screen.dart
-│   │   │   └── report_view_screen.dart
-│   │   ├── security/          # Security and password settings
-│   │   │   ├── security_screen.dart
-│   │   │   ├── password_setting_screen.dart
-│   │   │   └── delete_account_dialog.dart
-│   │   ├── settings/          # App settings and preferences
-│   │   │   ├── setting_screen.dart
-│   │   │   ├── language_screen.dart
-│   │   │   └── terms_view_screen.dart
-│   │   └── faq/               # Help and FAQ
-│   │       ├── faq_screen.dart
-│   │       └── faq_help_screen.dart
-│   ├── routes/                # App navigation routes
-│   │   └── app_routes.dart
-│   ├── shared/                # Shared utilities and components
-│   │   ├── config/            # Configuration files
-│   │   │   └── supabase_config.dart
-│   │   ├── constants.dart     # App constants and colors
-│   │   ├── localization/      # Multi-language support
-│   │   │   └── app_localizations.dart
-│   │   ├── models/            # Data models
-│   │   │   └── report_model.dart
-│   │   ├── services/          # Business logic services
-│   │   │   ├── auth_service.dart
-│   │   │   ├── auth_state_manager.dart
-│   │   │   ├── database_service.dart
-│   │   │   ├── language_service.dart
-│   │   │   └── report_service.dart
-│   │   └── widgets/           # Reusable UI components
-│   │       ├── custom_button.dart
-│   │       └── responsive_widgets.dart
-│   └── main.dart              # App entry point
-├── assets/                    # Static assets
-│   ├── images/                # App images and icons
-│   └── fonts/                 # Custom fonts
-├── test/                      # Unit and widget tests
-├── android/                   # Android-specific configuration
-├── pubspec.yaml               # Flutter dependencies and Information
-└── README.md                  # This file
+# Check code coverage
+flutter test --coverage
 ```
 
-## Application Architecture & Flow
-
-### App Structure Overview
-
-The Harari Prosperity App follows a clean, feature-based architecture that promotes maintainability and scalability. Think of it as a well-organized office where each department has its own space but works together seamlessly.
-
-#### Core Architecture Principles
-- **Feature-First Organization**: Code is organized by features (authentication, reports, settings) rather than technical layers
-- **Separation of Concerns**: Business logic, UI, and data layers are clearly separated
-- **Provider Pattern**: State management using Flutter's Provider for reactive updates
-- **Service Layer**: Dedicated services handle API calls, authentication, and data operations
-- **Shared Components**: Reusable widgets and utilities reduce code duplication
-
-#### Main Application Flow
-
-When you open the app, here's what happens behind the scenes:
-
-1. **Splash Screen (2 seconds)**: The app initializes Supabase connection, checks authentication status, and determines the next screen
-2. **Authentication Check**: If logged in, proceed to main app; if not, show login/signup choice
-3. **PIN Verification**: For returning users with PIN security, verify PIN before accessing the app
-4. **Main Navigation**: Bottom navigation bar with Home, Reports, FAQ, and Profile tabs
-5. **Report Creation**: 5-step wizard with auto-save functionality for drafts
-
-### Detailed Screen-by-Screen Explanation
-
-#### 1. Splash Screen (`splash_screen.dart`)
-**Purpose**: Warm welcome and system initialization
-**What it does**: Shows the party logo while checking your login status and preparing the app
-**Logic**: Authenticates with Supabase, checks for PIN requirements, and routes you appropriately
-**Human touch**: That brief moment of anticipation before diving into your political analysis work
-
-#### 2. Choice Screen (`choice_screen.dart`)
-**Purpose**: Entry point for new users
-**What it does**: Simple choice between logging in or creating a new account
-**Logic**: Clean, minimal interface that respects your time - no unnecessary steps
-**Human touch**: Acknowledges you're taking the first step in contributing to your community's future
-
-#### 3. Login Screen (`login_screen.dart`)
-**Purpose**: Secure authentication
-**What it does**: Email/password login with forgot password option
-**Logic**: Validates credentials against Supabase, handles errors gracefully, remembers your session
-**Human touch**: Clear error messages that guide you when something goes wrong, like a helpful colleague
-
-#### 4. Signup Screen (`signup_screen.dart`)
-**Purpose**: Account creation with verification
-**What it does**: Creates new account, sends verification email, collects basic profile info
-**Logic**: Email verification ensures only legitimate party members join
-**Human touch**: Terms acceptance reminds you of the responsibility that comes with political participation
-
-#### 5. Navigation Screen (`navigation_screen.dart`)
-**Purpose**: Main app hub
-**What it does**: Bottom navigation between Home, Reports, FAQ, and Profile
-**Logic**: Drawer menu for additional settings, logout functionality with confirmation
-**Human touch**: Like a party office where you can quickly access different departments
-
-#### 6. Home Screen (`home_screen.dart`)
-**Purpose**: Welcome and quick actions
-**What it does**: Personalized greeting, prominent "Create Report" button
-**Logic**: Displays your username, provides direct access to report creation
-**Human touch**: Makes you feel valued - "Hello [Your Name], ready to contribute?"
-
-#### 7. Report Detail Screen (`report_detail_screen.dart`)
-**Purpose**: Comprehensive report creation wizard
-**What it does**: 5-step form with auto-save, validation, and progress tracking
-**Logic**:
-   - **Step 1**: Basic info (title, type, receiver, objective)
-   - **Step 2**: Importance and main points with source documentation
-   - **Step 3**: Stakeholder analysis and trend identification
-   - **Step 4**: Implications, scenarios, and risk assessment
-   - **Step 5**: Future plans, timelines, and sender metadata
-**Human touch**: Each step feels like a conversation with party leadership - structured yet personal
-
-#### 8. Attachment Screen (`attachment_screen.dart`)
-**Purpose**: Evidence collection
-**What it does**: File picker for documents/images, URL input for links
-**Logic**: Uploads to Supabase storage, associates with report, supports multiple formats
-**Human touch**: Makes your analysis more credible by allowing supporting evidence
-
-#### 9. Final Step Screen (`final_step_screen.dart`)
-**Purpose**: Report completion and submission
-**What it does**: Final review, submit button, success confirmation
-**Logic**: Changes status from 'draft' to 'completed', sends to party leadership
-**Human touch**: Celebrates your contribution with success feedback
-
-#### 10. Report History Screen (`report_history_screen.dart`)
-**Purpose**: Report management and tracking
-**What it does**: Lists all reports with status indicators, search/filter options
-**Logic**: Fetches from database, displays drafts vs completed reports
-**Human touch**: Shows the impact of your work over time
-
-#### 11. Profile & Settings Screens
-**Purpose**: Personal account management
-**What it does**: View/edit profile, change password, language settings, account deletion
-**Logic**: Secure updates through Supabase, validation for all changes
-**Human touch**: Respects your privacy and control over your account
-
-### Backend Architecture & API Integration
-
-#### Supabase Backend Overview
-
-The app's brain is Supabase, a powerful backend-as-a-service that handles everything from user authentication to file storage. Think of it as the party headquarters that securely stores all reports and manages member access.
-
-#### Authentication Flow
+### Commit Convention
 ```
-User Login → Supabase Auth → JWT Token → App Access
-       ↓
-Email Verification Required
-       ↓
-Session Management (Auto-logout)
+feat: add new feature
+fix: bug fix
+docs: documentation update
+style: code style changes
+refactor: code refactoring
+test: add tests
+chore: maintenance tasks
 ```
 
-#### Database Schema
-**Reports Table**:
-- `id`: Unique identifier
-- `user_id`: Owner of the report
-- `name`: Report title
-- `report_type`: Category/type
-- `receiver_name`: Intended recipient
-- `objective`: Report purpose
-- `description`: Brief overview
-- `importance`: Strategic significance
-- `main_points`: Key findings
-- `sources`: Information sources
-- `roles`: Stakeholder roles
-- `trends`: Positive/negative trends
-- `themes`: Key themes identified
-- `implications`: Potential outcomes
-- `scenarios`: Future scenarios
-- `future_plans`: Proposed actions
-- `approving_body`: Authority details
-- `sender_name`: Author name
-- `role`: Author position
-- `date`: Report date
-- `attachments`: File URLs array
-- `link_attachment`: Optional URL
-- `status`: 'draft' or 'completed'
-- `created_at/updated_at`: Timestamps
+## 🚀 Deployment
 
-#### API Operations
+### Development Build
+```bash
+# Run in debug mode
+flutter run
 
-**Authentication Service (`auth_service.dart`)**:
-- `signUp()`: Creates account with email verification
-- `signIn()`: Authenticates user and returns session
-- `signOut()`: Ends session securely
-- `resetPassword()`: Initiates password recovery
-- `updateProfile()`: Modifies user information
-
-**Report Service (`report_service.dart`)**:
-- `saveReport()`: Creates or updates reports with auto-save
-- `getUserReports()`: Fetches user's report history
-- `getCompletedReports()`: Filters completed reports
-- `getDraftReports()`: Shows work-in-progress
-- `completeReport()`: Finalizes and submits
-- `uploadAttachment()`: Handles file uploads to storage
-- `addAttachmentToReport()`: Links files to reports
-
-**Database Service (`database_service.dart`)**:
-- Generic CRUD operations for all tables
-- File upload/download to Supabase Storage
-- Real-time subscriptions for live updates
-- Custom query builder for complex operations
-
-#### File Storage Architecture
-```
-Local File → File Picker → Supabase Storage
-                                      ↓
-Generate Public URL → Attach to Report
-                                      ↓
-Secure Access via User Permissions
+# Enable hot reload for development
+flutter run --debug
 ```
 
-#### Security Implementation
-- **Row Level Security (RLS)**: Users can only access their own reports
-- **JWT Authentication**: Secure API calls with token validation
-- **File Permissions**: Private buckets with controlled access
-- **Data Encryption**: Sensitive data protected in transit and at rest
+### Production Build
+```bash
+# Build APK for Android
+flutter build apk --release
 
-### Data Flow & Logic Patterns
+# Build IPA for iOS (macOS only)
+flutter build ios --release
 
-#### Report Creation Workflow
-1. **Draft Creation**: Auto-saved as user types
-2. **Step Validation**: Each step validated before progression
-3. **Attachment Processing**: Files uploaded and URLs stored
-4. **Final Submission**: Status change triggers notifications
-5. **History Tracking**: All versions maintained for audit
+# Build App Bundle for Google Play
+flutter build appbundle --release
+```
 
-#### State Management Logic
-- **Provider Pattern**: Reactive updates across the app
-- **Local Persistence**: SharedPreferences for user preferences
-- **Session Management**: Automatic logout on inactivity
-- **Language Switching**: Real-time UI updates without restart
+### Backend Deployment
+```bash
+# Production build
+npm run start
 
-#### Error Handling Philosophy
-- **Graceful Degradation**: App continues working even with network issues
-- **User-Friendly Messages**: Clear explanations of what went wrong
-- **Retry Mechanisms**: Automatic retries for transient failures
-- **Offline Support**: Draft saving works without internet
+# With PM2 for process management
+pm2 start server.js --name "harari-backend"
+```
 
-### Design System & User Experience
+## 🔒 Security Features
 
-#### Color Palette & Branding
-The app uses a carefully crafted color scheme that reflects the party's professional image:
+- **JWT Authentication**: Secure token-based authentication
+- **Email Verification**: Required email confirmation for new accounts
+- **Password Encryption**: bcryptjs for secure password hashing
+- **Row Level Security**: Users can only access their own reports
+- **File Upload Security**: Secure file handling with validation
 
-```dart
-class AppColors {
-  static const primary = Color(0xFF1E88E5);      // Professional blue
-  static const secondary = Color(0xFF0D47A1);    // Deep blue accent
-  static const background = Color(0xFFFFFFFF);   // Clean white
-  static const surface = Color(0xFFF5F5F5);      // Light gray surfaces
-  static const error = Color(0xFFB00020);        // Red for errors
-  static const onPrimary = Color(0xFFFFFFFF);    // White text on primary
-  static const onSecondary = Color(0xFFFFFFFF);  // White text on secondary
-  static const onBackground = Color(0xFF000000); // Black text on background
-  static const onSurface = Color(0xFF000000);    // Black text on surfaces
-  static const onError = Color(0xFFFFFFFF);      // White text on error
+## 📊 Database Schema
+
+### Report Model
+```javascript
+{
+  id: ObjectId,
+  user_id: ObjectId,           // Report owner
+  name: String,                // Report title
+  reportType: String,          // Report category
+  receiverName: String,        // Intended recipient
+  objective: String,           // Report purpose
+  description: String,         // Brief overview
+  importance: String,          // Strategic significance
+  mainPoints: String,          // Key findings
+  sources: String,             // Information sources
+  roles: String,               // Stakeholder roles
+  trends: String,              // Trend analysis
+  themes: String,              // Key themes
+  implications: String,        // Potential outcomes
+  scenarios: String,           // Future scenarios
+  futurePlans: String,         // Proposed actions
+  approvingBody: String,       // Authority details
+  senderName: String,          // Author name
+  role: String,                // Author position
+  date: String,                // Report date
+  attachments: [String],       // File URLs
+  linkAttachment: String,      // Optional URL
+  status: String,              // 'draft' or 'completed'
+  createdAt: DateTime,
+  updatedAt: DateTime
 }
 ```
 
-#### Typography System
-- **Primary Font**: Poppins - Clean, modern, and highly readable
-- **Font Weights**: Regular, Medium, SemiBold, Bold for hierarchy
-- **Text Sizes**: Consistent scaling from 12pt to 28pt for optimal readability
+## 🧪 Testing
 
-#### Component Library
-- **CustomButton**: Consistent button styling with filled/outlined variants
-- **ResponsivePadding**: Adaptive padding for different screen sizes
-- **Form Validation**: Real-time validation with contextual error messages
-- **Loading States**: Skeleton screens and progress indicators
+### Running Tests
+```bash
+# Run all tests
+flutter test
 
-#### Multi-Language Implementation
-The app supports three languages with comprehensive localization:
+# Run specific test file
+flutter test test/widget_test.dart
 
-- **English**: Default fallback language
-- **Amharic (አማርኛ)**: Official language with RTL support where needed
-- **Oromo (Afaan Oromoo)**: Regional language for broader accessibility
+# Run with coverage
+flutter test --coverage
 
-**Translation Coverage**: 200+ strings covering all UI elements, error messages, and help content
+# Generate coverage report
+genhtml coverage/lcov.info -o coverage/html
+```
 
-#### Accessibility Features
-- **Screen Reader Support**: Proper semantic markup for assistive technologies
-- **High Contrast**: Sufficient color contrast ratios for readability
-- **Touch Targets**: Minimum 44pt touch targets for easy interaction
-- **Font Scaling**: Respects system font size preferences
-- **Language Switching**: Real-time language change without app restart
+### Test Structure
+- **Unit Tests**: Test individual functions and services
+- **Widget Tests**: Test UI components in isolation
+- **Integration Tests**: Test complete user workflows
 
-### Performance & Optimization
+## 🚨 Troubleshooting
 
-#### App Performance Metrics
-- **Startup Time**: <2 seconds cold start, <1 second warm start
-- **Memory Usage**: Optimized for low-end devices (under 100MB)
-- **Battery Impact**: Minimal background processing
-- **Network Efficiency**: Compressed requests and cached responses
+### Common Issues
 
-#### Code Quality Standards
-- **Linting**: Flutter's strict linting rules enforced
-- **Testing**: Unit tests for business logic, widget tests for UI
-- **Documentation**: Comprehensive inline documentation
-- **Code Coverage**: 80%+ test coverage for critical paths
+**1. Flutter Doctor Issues**
+```bash
+# Clear Flutter cache
+flutter doctor --android-licenses
+flutter clean
+flutter pub get
+```
 
-#### Build & Deployment
-- **Platform Support**: iOS 11+, Android API 21+
-- **Build Optimization**: Tree shaking and code splitting
-- **App Size**: Under 50MB download size
-- **Update Mechanism**: Over-the-air updates via app stores
+**2. Backend Connection Issues**
+```bash
+# Check if MongoDB is running
+mongosh
 
-## User Guide
+# Verify backend server
+curl http://localhost:3000/health
 
-### First Time Setup
-1. **Download and Install**: Get the app from app stores or build from source
-2. **Language Selection**: Choose your preferred language (English/Amharic/Oromo)
-3. **Account Creation**: Sign up with email and password
-4. **Email Verification**: Verify your email address
-5. **Terms Acceptance**: Read and accept terms and conditions
+# Check environment variables
+cd backend && cat .env
+```
 
-### Creating Your First Report
-1. **Navigate to Home**: Tap the home icon in bottom navigation
-2. **Start New Report**: Click "CLICK HERE" button on home screen
-3. **Follow the Wizard**: Complete each of the 5 steps:
-   - Enter basic report information
-   - Explain importance and main points
-   - Analyze stakeholders and trends
-   - Consider implications and scenarios
-   - Outline future plans and metadata
-4. **Add Attachments**: Upload files, images, or links
-5. **Submit Report**: Send to party office for review
+**3. Build Issues**
+```bash
+# Clean build files
+flutter clean
+flutter pub get
 
-### Managing Reports
-- **View History**: Access report history from bottom navigation
-- **Search Reports**: Use search functionality to find specific reports
-- **Edit Drafts**: Continue working on saved drafts
-- **Track Status**: Monitor approval and review status
+# Update dependencies
+flutter pub upgrade
 
-### Profile Management
-- **Edit Profile**: Update personal information
-- **Change Password**: Securely update your password
-- **Language Settings**: Switch between supported languages
-- **Account Settings**: Manage privacy and notification preferences
+# Check for platform-specific issues
+flutter doctor -v
+```
 
-## API Documentation
-
-### Authentication Endpoints
-- `POST /auth/signup` - User registration
-- `POST /auth/login` - User authentication
-- `POST /auth/logout` - User logout
-- `POST /auth/reset-password` - Password reset request
-
-### Report Management
-- `GET /reports` - Fetch user reports
-- `POST /reports` - Create new report
-- `PUT /reports/{id}` - Update existing report
-- `DELETE /reports/{id}` - Delete report
-- `POST /reports/{id}/attachments` - Upload attachments
-
-### User Management
-- `GET /user/profile` - Get user profile
-- `PUT /user/profile` - Update user profile
-- `PUT /user/password` - Change password
-- `DELETE /user/account` - Delete user account
-
-### Getting Help
-- **Documentation**: Check this README and in-app help
-
-### Community
-- **GitHub**: https://github.com/harari-prosperity-app
-- **Website**: [Harari Prosperity Party Website]
-- **Social Media**: Follow us on social platforms
-
-## Development & Contribution
+## 🤝 Contributing
 
 ### Development Workflow
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Make** your changes following the code standards
+4. **Add tests** for new functionality
+5. **Commit** your changes (`git commit -m 'feat: add amazing feature'`)
+6. **Push** to the branch (`git push origin feature/amazing-feature`)
+7. **Open** a Pull Request
 
-#### Code Organization Standards
-- **Feature Branches**: All development happens on feature branches from `main`
-- **Commit Messages**: Clear, descriptive commits following conventional format
-- **Pull Requests**: Code review required before merging
-- **Testing**: Unit tests for all new features, integration tests for critical paths
+### Code Review Process
+- All submissions require review
+- Tests must pass before merging
+- Follow Dart/Flutter best practices
+- Maintain consistent code style
 
-#### Code Style Guidelines
-- **Dart Formatting**: `flutter format` applied to all code
-- **Linting**: All code passes `flutter analyze` with zero errors
-- **Documentation**: All public APIs documented with dartdoc comments
-- **Naming Conventions**: Consistent naming following Dart style guide
+## 📞 Support & Contact
 
-#### Quality Assurance Process
-1. **Code Review**: Peer review for all changes
-2. **Automated Testing**: CI/CD pipeline runs all tests
-3. **Performance Testing**: Memory and CPU profiling for new features
-4. **Accessibility Audit**: Screen reader and keyboard navigation testing
-5. **Localization Review**: All new strings translated and tested
+### Getting Help
+- **📖 Documentation**: This README and in-app help
+- **🐛 Bug Reports**: [GitHub Issues](https://github.com/your-repo/issues)
+- **💬 Feature Requests**: [GitHub Discussions](https://github.com/your-repo/discussions)
 
-### Contributing to the Project
-
-#### For Party Members & Developers
-1. **Fork the Repository**: Create your own fork for development
-2. **Create Feature Branch**: `git checkout -b feature/your-feature-name`
-3. **Make Changes**: Implement your feature following code standards
-4. **Add Tests**: Write comprehensive tests for new functionality
-5. **Submit PR**: Create pull request with detailed description
-6. **Code Review**: Address review feedback and iterate
-
-#### Reporting Issues
-- **Bug Reports**: Use GitHub Issues with detailed reproduction steps
-- **Feature Requests**: Describe the problem and proposed solution
-- **Security Issues**: Contact maintainers directly for sensitive matters
-
-#### Translation Contributions
-- **Adding Languages**: Contact the development team for new language support
-- **String Updates**: Submit PRs for translation improvements
-- **Cultural Adaptation**: Consider local context and political sensitivity
-
-### Deployment & Release Process
-
-#### Beta Testing
-- **Internal Testing**: Party members test pre-release versions
-- **Feedback Collection**: Structured feedback forms for user experience
-- **Bug Tracking**: Dedicated issue tracking for beta releases
-
-#### Production Releases
-- **Version Numbering**: Semantic versioning (MAJOR.MINOR.PATCH)
-- **Release Notes**: Detailed changelog for each release
-- **Rollback Plan**: Ability to revert releases if critical issues arise
-- **User Communication**: Notify users of new features and improvements
-
-#### Monitoring & Analytics
-- **Crash Reporting**: Automated crash detection and reporting
-- **Usage Analytics**: Anonymous usage patterns for improvement
-- **Performance Monitoring**: Real-time performance metrics
-- **User Feedback**: In-app feedback mechanisms
-
-### Future Roadmap
-
-#### Planned Features
-- **Advanced Analytics**: Report trend analysis and visualization
-- **Collaborative Reports**: Multi-user report editing capabilities
-- **Offline Mode**: Full functionality without internet connection
-- **Push Notifications**: Real-time updates on report status
-- **Advanced Search**: Full-text search across all reports
-
-#### Technical Improvements
-- **Performance Optimization**: Further memory and battery optimizations
-- **Security Enhancements**: Advanced encryption and biometric authentication
-- **Accessibility**: Enhanced support for assistive technologies
-- **Platform Expansion**: Web and desktop versions consideration
-
-### Support & Contact
-
-#### Getting Help
-- **In-App Support**: FAQ section and contact forms within the app
-- **Documentation**: Comprehensive guides and video tutorials
-- **Community Forum**: Discussion platform for users and developers
-- **Direct Support**: Email support for urgent technical issues
-
-#### Contact Information
+### Contact Information
 - **Technical Support**: support@harariprosperity.et
-- **Party Communications**: info@harariprosperity.et
 - **Development Team**: dev@harariprosperity.et
+- **Party Communications**: info@harariprosperity.et
+
+## 📈 Version History
+
+### v1.1.0 - Stability & Localization Updates (September 30, 2025)
+- ✅ **Fixed**: Report creation errors with MongoDB ObjectId handling
+- 🌍 **Enhanced**: Multi-language support with complete translation coverage
+- 🔧 **Improved**: Data processing and error resilience
+- ✅ **Tested**: Comprehensive testing for all major features
+
+### v1.0.0 - Initial Release (August 15, 2025)
+- 🚀 **Launched**: Complete mobile app with 5-step report wizard
+- 🔐 **Implemented**: Secure authentication and user management
+- 📎 **Added**: File attachment and document management
+- 🌍 **Supported**: Multi-language interface (English, Amharic, Oromo)
 
 ---
 
 **Built with ❤️ for the Harari Regional Prosperity Party**
 
 *Empowering political analysis and community development through technology*
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.8.1+-02569B?style=flat&logo=flutter)](https://flutter.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js)](https://nodejs.org)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-47A248?style=flat&logo=mongodb)](https://mongodb.com)
