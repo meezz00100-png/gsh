@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'shared/constants.dart';
-import 'shared/config/api_config.dart';
 import 'shared/localization/app_localizations.dart';
 import 'shared/services/language_service.dart';
 import 'routes/app_routes.dart';

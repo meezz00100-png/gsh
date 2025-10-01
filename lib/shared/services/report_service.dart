@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import '../models/report_model.dart';
@@ -29,7 +30,9 @@ class ReportService {
 
       // Use simple, manual serialization instead of model.toJson()
       final reportData = _createSimpleReportData(report);
-      print('📤 Sending simple data: $reportData');
+      if (ApiConfig.debugMode) {
+        debugPrint('📤 Sending simple data: $reportData');
+      }
 
       late http.Response response;
       if (report.id == null) {
@@ -56,14 +59,20 @@ class ReportService {
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         final body = json.decode(response.body);
-        print('📥 Received response: ${response.body}');
+        if (ApiConfig.debugMode) {
+          debugPrint('📥 Received response: ${response.body}');
+        }
         return _createReportFromSimpleData(body['report'], report.id);
       } else {
-        print('❌ Server error: ${response.statusCode} - ${response.body}');
+        if (ApiConfig.debugMode) {
+          debugPrint('❌ Server error: ${response.statusCode} - ${response.body}');
+        }
         throw Exception('Failed to save report: ${response.statusCode}');
       }
     } catch (e) {
-      print('❌ Error in saveReport: $e');
+      if (ApiConfig.debugMode) {
+        debugPrint('❌ Error in saveReport: $e');
+      }
       throw Exception('Error saving report: $e');
     }
   }
@@ -71,28 +80,28 @@ class ReportService {
   // Create simple report data map manually
   Map<String, dynamic> _createSimpleReportData(Report report) {
     return {
-      'name': report.name ?? '',
-      'reportType': report.reportType ?? '',
-      'type': report.type ?? '',
-      'receiverName': report.receiverName ?? '',
-      'objective': report.objective ?? '',
-      'description': report.description ?? '',
-      'importance': report.importance ?? '',
-      'mainPoints': report.mainPoints ?? '',
-      'sources': report.sources ?? '',
-      'roles': report.roles ?? '',
-      'trends': report.trends ?? '',
-      'themes': report.themes ?? '',
-      'implications': report.implications ?? '',
-      'scenarios': report.scenarios ?? '',
-      'futurePlans': report.futurePlans ?? '',
-      'approvingBody': report.approvingBody ?? '',
-      'senderName': report.senderName ?? '',
-      'role': report.role ?? '',
-      'date': report.date ?? '',
-      'attachments': report.attachments ?? [],
+      'name': report.name,
+      'reportType': report.reportType,
+      'type': report.type,
+      'receiverName': report.receiverName,
+      'objective': report.objective,
+      'description': report.description,
+      'importance': report.importance,
+      'mainPoints': report.mainPoints,
+      'sources': report.sources,
+      'roles': report.roles,
+      'trends': report.trends,
+      'themes': report.themes,
+      'implications': report.implications,
+      'scenarios': report.scenarios,
+      'futurePlans': report.futurePlans,
+      'approvingBody': report.approvingBody,
+      'senderName': report.senderName,
+      'role': report.role,
+      'date': report.date,
+      'attachments': report.attachments,
       'linkAttachment': report.linkAttachment,
-      'status': report.status ?? 'draft',
+      'status': report.status,
     };
   }
 
@@ -151,30 +160,6 @@ class ReportService {
           : DateTime.now(),
       status: safeString(data['status']),
     );
-  }
-
-  // Helper method to ensure all data is properly serialized
-  Map<String, dynamic> _serializeReportData(Map<String, dynamic> data) {
-    final serialized = <String, dynamic>{};
-
-    data.forEach((key, value) {
-      if (value == null) {
-        serialized[key] = null;
-      } else if (value is String) {
-        serialized[key] = value;
-      } else if (value is DateTime) {
-        serialized[key] = value.toIso8601String();
-      } else if (value is List) {
-        serialized[key] = value;
-      } else if (value is Map) {
-        serialized[key] = value;
-      } else {
-        // Convert any other type to string
-        serialized[key] = value.toString();
-      }
-    });
-
-    return serialized;
   }
 
   // Get all reports for current user
@@ -290,9 +275,13 @@ class ReportService {
         throw Exception('User not authenticated');
       }
 
-      print('🔄 Completing report $reportId');
+      if (ApiConfig.debugMode) {
+        debugPrint('🔄 Completing report $reportId');
+      }
       final requestBody = json.encode({'status': 'completed'});
-      print('📤 Sending completion request: $requestBody');
+      if (ApiConfig.debugMode) {
+        debugPrint('📤 Sending completion request: $requestBody');
+      }
 
       final response = await http.put(
         Uri.parse('${ApiConfig.baseUrl}${ApiConfig.reports}/$reportId'),
@@ -303,20 +292,28 @@ class ReportService {
         body: requestBody,
       );
 
-      print(
-        '📥 Completion response: ${response.statusCode} - ${response.body}',
-      );
+      if (ApiConfig.debugMode) {
+        debugPrint(
+          '📥 Completion response: ${response.statusCode} - ${response.body}',
+        );
+      }
 
       if (response.statusCode == 200) {
         final body = json.decode(response.body);
-        print('📥 Parsed response body: $body');
+        if (ApiConfig.debugMode) {
+          debugPrint('📥 Parsed response body: $body');
+        }
         return Report.fromJson(body['report']);
       } else {
-        print('❌ Server error: ${response.statusCode} - ${response.body}');
+        if (ApiConfig.debugMode) {
+          debugPrint('❌ Server error: ${response.statusCode} - ${response.body}');
+        }
         throw Exception('Failed to complete report: ${response.statusCode}');
       }
     } catch (e) {
-      print('❌ Error in completeReport: $e');
+      if (ApiConfig.debugMode) {
+        debugPrint('❌ Error in completeReport: $e');
+      }
       throw Exception('Error completing report: $e');
     }
   }

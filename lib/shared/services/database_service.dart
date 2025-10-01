@@ -24,7 +24,7 @@ class DatabaseService {
       if (token == null) throw Exception('Not authenticated');
 
       final response = await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/${table}'),
+        Uri.parse('${ApiConfig.baseUrl}/$table'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${token['access_token']}',
@@ -68,7 +68,7 @@ class DatabaseService {
       }
 
       final uri = Uri.parse(
-        '${ApiConfig.baseUrl}/${table}?${Uri(queryParameters: params).query}',
+        '${ApiConfig.baseUrl}/$table?${Uri(queryParameters: params).query}',
       );
 
       final response = await http.get(
@@ -99,7 +99,7 @@ class DatabaseService {
       final token = await _getToken();
       if (token == null) throw Exception('Not authenticated');
 
-      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$where=$whereValue');
+      final uri = Uri.parse('${ApiConfig.baseUrl}/$table?$where=$whereValue');
 
       final response = await http.put(
         uri,
@@ -131,7 +131,7 @@ class DatabaseService {
       final token = await _getToken();
       if (token == null) throw Exception('Not authenticated');
 
-      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$where=$whereValue');
+      final uri = Uri.parse('${ApiConfig.baseUrl}/$table?$where=$whereValue');
 
       final response = await http.delete(
         uri,
@@ -155,7 +155,7 @@ class DatabaseService {
       final token = await _getToken();
       if (token == null) throw Exception('Not authenticated');
 
-      final uri = Uri.parse('${ApiConfig.baseUrl}/${table}?$queryParams');
+      final uri = Uri.parse('${ApiConfig.baseUrl}/$table?$queryParams');
 
       final response = await http.get(
         uri,

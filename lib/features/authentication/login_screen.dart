@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
 import 'package:harari_prosperity_app/shared/services/auth_service.dart';
 import 'package:harari_prosperity_app/shared/services/auth_state_manager.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
+import 'package:harari_prosperity_app/shared/config/api_config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

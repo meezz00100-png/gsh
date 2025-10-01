@@ -68,11 +68,6 @@ class _PinScreenState extends State<PinScreen> {
     );
   }
 
-  Future<bool> _hasPin() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('has_pin') ?? false;
-  }
-
   Future<void> _verifyPin() async {
     final prefs = await SharedPreferences.getInstance();
     final authManager = AuthStateManager();

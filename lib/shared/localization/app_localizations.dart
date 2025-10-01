@@ -145,9 +145,6 @@ class _AppLocalizationsDelegate
             'Welcome to Harari Regional Prosperity Party Political Analysis System. This application helps you to share the report to prosperity party office by giving you the guidance of standards to make the report and it gives you choices like document, pictures, links to attach with your report.',
         'toSendReport': 'TO SEND A REPORT',
         'clickHere': 'CLICK HERE',
-
-        // Authentication
-        'createAccount': 'Create Account',
         'alreadyHaveAccountLogin': 'Already have an account? Login',
         'forgotPasswordTitle': 'Forgot Password',
         'ifYouWantCreateAccount': 'If You Want To Create Another Account',
@@ -226,39 +223,12 @@ class _AppLocalizationsDelegate
         'noReportIdFound': 'No report ID found',
         'failedToUploadAttachments': 'Failed to upload attachments',
 
-        // Report History
-        'view': 'View',
-        'createFirstReport': 'Create Your First Report',
-
-        // Report View
-        'reportDetails': 'Report Details',
-        'completed': 'COMPLETED',
-        'basicInformation': 'Basic Information',
-        'reportContent': 'Report Content',
-        'analysis': 'Analysis',
-        'conclusionsFuture': 'Conclusions & Future',
-        'reportMetadata': 'Report Metadata',
-        'attachments': 'Attachments',
-        'fileAttachments': 'File Attachments:',
-        'linkAttachment': 'Link Attachment:',
-        'reportInformation': 'Report Information',
-        'created': 'Created',
-        'lastUpdated': 'Last Updated',
-        'status': 'Status',
-        'reportType': 'Report Type',
-        'type': 'Type',
-        'receiverName': 'Receiver Name',
-        'objectiveOfReport': 'Objective of Report',
-        'description': 'Description',
-        'untitledReport': 'Untitled Report',
-
         // Security
         'securityTitle': 'Security',
         'deleteAccountTitle': 'Delete Account',
         'deleteAccountMessage':
             'Are you sure you want to delete your account? This action cannot be undone.',
         'failedToDeleteAccount': 'Failed to delete account',
-        'changeUsername': 'Change Username',
         'currentPassword': 'Current Password',
         'newPassword': 'New Password',
         'confirmNewPassword': 'Confirm New Password',
@@ -363,32 +333,14 @@ class _AppLocalizationsDelegate
         'currentPasswordRequired': 'Please enter your current password',
         'newPasswordRequired': 'Please enter a new password',
         'passwordTooShort': 'Password must be at least 6 characters',
-        'confirmPasswordRequired': 'Please confirm your new password',
         'passwordChangeFailed': 'Failed to change password',
         'changingPassword': 'Changing...',
-        'changePassword': 'Change Password',
-        'passwordChangedSuccessfully': 'Password changed successfully!',
 
         // Report History Screen
         'noCompletedReports': 'No completed reports yet.',
         'failedToLoadReports': 'Failed to load reports',
         'untitledReport': 'Untitled Report',
         'notSpecified': 'Not specified',
-        'date': 'Date',
-        'reportType': 'Report Type',
-        'receiver': 'Receiver',
-        'sender': 'Sender',
-        'objective': 'Objective',
-        'attachments': 'Attachments',
-        'files': 'file(s)',
-        'attached': 'attached',
-        'link': 'Link',
-        'created': 'Created',
-        'completed': 'Completed',
-        'edit': 'Edit',
-        'view': 'View',
-        'close': 'Close',
-        'retry': 'Retry',
         'createFirstReport': 'Create Your First Report',
 
         // PIN Screen
@@ -402,41 +354,19 @@ class _AppLocalizationsDelegate
         'pin_must_be_4_digits': 'PIN must be exactly 4 digits',
 
         // Report View Screen
-        'reportDetails': 'Report Details',
-        'completed': 'COMPLETED',
         'basicInformation': 'Basic Information',
         'reportContent': 'Report Content',
         'analysis': 'Analysis',
         'conclusionsFuture': 'Conclusions & Future',
         'reportMetadata': 'Report Metadata',
-        'attachments': 'Attachments',
         'fileAttachments': 'File Attachments:',
         'linkAttachment': 'Link Attachment:',
         'reportInformation': 'Report Information',
-        'created': 'Created',
-        'lastUpdated': 'Last Updated',
-        'status': 'Status',
-        'at': 'at',
-
-        // Report View Screen
-        'reportDetails': 'Report Details',
-        'completed': 'COMPLETED',
-        'basicInformation': 'Basic Information',
-        'reportContent': 'Report Content',
-        'analysis': 'Analysis',
-        'conclusionsFuture': 'Conclusions & Future',
-        'reportMetadata': 'Report Metadata',
-        'attachments': 'Attachments',
-        'fileAttachments': 'File Attachments:',
-        'linkAttachment': 'Link Attachment:',
-        'reportInformation': 'Report Information',
-        'created': 'Created',
         'lastUpdated': 'Last Updated',
         'status': 'Status',
         'at': 'at',
 
         // FAQ Screen
-        'faq': 'FAQ',
         'contactUs': 'Contact Us',
         'howCreateReport': 'How do I create a report?',
         'whatTypesReports': 'What types of reports can I submit?',
@@ -455,34 +385,9 @@ class _AppLocalizationsDelegate
         'facebook': 'Facebook',
         'telegram': 'Telegram',
 
-        // Security Screen
-        'changePassword': 'Change Password',
-        'termsAndConditions': 'Terms And Conditions',
-
         // Delete Account Dialog
         'deleteAccountConfirmation':
             'Are you sure you want to delete your account? This action cannot be undone.',
-
-        // Report History
-        'noCompletedReports': 'No completed reports yet.',
-        'failedToLoadReports': 'Failed to load reports',
-        'untitledReport': 'Untitled Report',
-        'notSpecified': 'Not specified',
-        'date': 'Date',
-        'reportType': 'Report Type',
-        'receiver': 'Receiver',
-        'sender': 'Sender',
-        'objective': 'Objective',
-        'attachments': 'Attachments',
-        'files': 'file(s)',
-        'link': 'Link',
-        'created': 'Created',
-        'completed': 'Completed',
-        'edit': 'Edit',
-        'view': 'View',
-        'close': 'Close',
-        'retry': 'Retry',
-        'createFirstReport': 'Create Your First Report',
       },
       'am': {
         // App Title
@@ -606,14 +511,6 @@ class _AppLocalizationsDelegate
         'toSendReport': 'ሪፖርት ለመላክ',
         'clickHere': 'እዚህ ይጫኑ',
 
-        // Authentication
-        'alreadyHaveAccountLogin': 'ቀድሞውኑ መለያ አለ��ት? ይግቡ',
-        'forgotPasswordTitle': 'የይለፍ ቃል ረሳሁ',
-        'ifYouWantCreateAccount': 'ሌላ መለያ መፍጠር ከፈለጉ',
-        'orSignUpWith': 'ወይም በሚከተለው ይመዝገቡ',
-        'dontHaveAccountSignUp': 'መለያ የለዎትም? ይመዝገቡ',
-        'or': 'ወይም',
-
         // Terms and Conditions
         'termsAndConditionsTitle': 'ውሎች እና ሁኔታዎች',
         'term1': '1. Ea voluptates omnis aut sequi sequi.',
@@ -623,7 +520,6 @@ class _AppLocalizationsDelegate
         'termBullet1': '- Aut fuga sequi eum voluptatibus provident.',
         'termBullet2':
             '- Eos consequuntur voluptas vel amet eaque aut dignissimos velit.',
-        'iAcceptTerms': 'ሁሉንም ውሎች እና ሁኔታዎች እቀበላለሁ',
         'termsDescription':
             'ሐረሪ ዕድገት መተግበሪያን ለመቀጠል እባክዎ የኛን ውሎች እና ሁኔታዎች ያንብቡ እና ያረጋግጡ።',
         'termsPoint1':
@@ -705,20 +601,6 @@ class _AppLocalizationsDelegate
         'objectiveOfReport': 'የሪፖርት አላማ',
         'description': 'ገለፃ',
         'untitledReport': 'ርዕስ የሌለው ሪፖርት',
-        'reportDetails': 'የሪፖርት ዝርዝሮች',
-        'completed': 'ተጠናቋል',
-        'basicInformation': 'መሰረታዊ መረጃ',
-        'reportContent': 'የሪፖርት ይዘት',
-        'analysis': 'ትንተና',
-        'conclusionsFuture': 'መደምደሚያዎች እና ወደፊት',
-        'reportMetadata': 'የሪፖርት ሜታዳታ',
-        'attachments': 'ማያያዣዎች',
-        'fileAttachments': 'የፋይል ማያያዣዎች:',
-        'linkAttachment': 'የአገናኝ ማያያዣ:',
-        'files': 'ፋይል(ዎች)',
-        'receiver': 'ተቀባይ',
-        'sender': 'ላኪ',
-        'objective': 'ዓላማ',
 
         // Security
         'securityTitle': 'ደህንነት',
@@ -727,7 +609,6 @@ class _AppLocalizationsDelegate
         'deleteAccountConfirmation':
             'መለያዎን ለማጥፋት እርግጠኛ ነዎት? ይህ እርምጃ መግታት አይችሉም።',
         'failedToDeleteAccount': 'መለያ ማጥፋት አልተሳካም',
-        'changeUsername': 'የተጠቃሚ ስም ቀይር',
         'currentPassword': 'የአሁኑ የይለፍ ቃል',
         'newPassword': 'አዲስ የይለፍ ቃል',
         'confirmNewPassword': 'አዲሱን የይለፍ ቃል አረጋግጥ',
@@ -737,7 +618,6 @@ class _AppLocalizationsDelegate
         'usernameUpdated': 'የተጠቃሚ ስም በተሳካ ሁኔታ ተዘምኗል',
 
         // FAQ & Help Screen
-        'faq': 'ተደጋጋሚ ጥያቄዎች',
         'contactUs': 'አግኙን',
         'helpCenter': 'የእርዳታ ማዕከል',
         'contactSupport': 'ድጋፍን ያግኙ',
@@ -844,33 +724,13 @@ class _AppLocalizationsDelegate
         'currentPasswordRequired': 'እባክዎ የአሁኑ የይለፍ ቃል ያስገቡ',
         'newPasswordRequired': 'እባክዎ አዲስ የይለፍ ቃል ያስገቡ',
         'passwordTooShort': 'የይለፍ ቃሉ ቢያንስ 6 ቁምፊዎች ሊኖረው ይገባል',
-        'confirmPasswordRequired': 'እባክዎ አዲሱን የይለፍ ቃል ያረጋግጡ',
         'passwordChangeFailed': 'የይለፍ ቃል መቀየር አልተሳካም',
         'changingPassword': 'በመቀየር ላይ...',
-        'changePassword': 'የይለፍ ቃል ቀይር',
-        'passwordChangedSuccessfully': 'የይለፍ ቃል በተሳካ ሁኔታ ተቀይሯል!',
 
         // Report History Screen
         'noCompletedReports': 'ገና የተጠናቀቁ ሪፖርቶች የሉም።',
         'failedToLoadReports': 'ሪፖርቶችን መጫን አልተሳካም',
-        'untitledReport': 'ርዕስ የሌለው ሪፖርት',
         'notSpecified': 'አልተገለጸም',
-        'date': 'ቀን',
-        'reportType': 'የሪፖርት አይነት',
-        'receiver': 'ተቀባይ',
-        'sender': 'ላኪ',
-        'objective': 'ዓላማ',
-        'attachments': 'ማያያዦች',
-        'files': 'ፋይል(ዎች)',
-        'attached': 'የተለጠፈ',
-        'link': 'አገናኝ',
-        'created': 'ተፈጥሯል',
-        'completed': 'ተጠናቋል',
-        'edit': 'አርትዕ',
-        'view': 'ይመልከቱ',
-        'close': 'ዝጋ',
-        'retry': 'እንደገና ይሞክሩ',
-        'createFirstReport': 'የመጀመሪያ ሪፖርትዎን ይፍጠሩ',
 
         // PIN Screen
         'enter_pin': 'ፒን ያስገቡ',
@@ -883,37 +743,6 @@ class _AppLocalizationsDelegate
         'pin_must_be_4_digits': 'ፒን በትክክል 4 አሃዞች መሆኑ አስፈላጊ ነዎት',
 
         // Report View Screen
-        'reportDetails': 'የሪፖርት ዝርዝሮች',
-        'completed': 'ተጠናቋል',
-        'basicInformation': 'መሰረታዊ መረጃ',
-        'reportContent': 'የሪፖርት ይዘት',
-        'analysis': 'ትንተና',
-        'conclusionsFuture': 'መደምደሚያዎች እና ወደፊት',
-        'reportMetadata': 'የሪፖርት ሜታዳታ',
-        'attachments': 'ማያያዦች',
-        'fileAttachments': 'የፋይል ማያያዦች:',
-        'linkAttachment': 'የአገናኝ ማያያዣ:',
-        'reportInformation': 'የሪፖርት መረጃ',
-        'created': 'ተፈጥሯል',
-        'lastUpdated': 'በመጨረሻ ተዘምኗል',
-        'status': 'ሁኔታ',
-        'at': 'በ',
-
-        // Report View Screen
-        'reportDetails': 'የሪፖርት ዝርዝሮች',
-        'completed': 'ተጠናቋል',
-        'basicInformation': 'መሰረታዊ መረጃ',
-        'reportContent': 'የሪፖርት ይዘት',
-        'analysis': 'ትንተና',
-        'conclusionsFuture': 'መደምደሚያዎች እና ወደፊት',
-        'reportMetadata': 'የሪፖርት ሜታዳታ',
-        'attachments': 'ማያያዦች',
-        'fileAttachments': 'የፋይል ማያያዦች:',
-        'linkAttachment': 'የአገናኝ ማያያዣ:',
-        'reportInformation': 'የሪፖርት መረጃ',
-        'created': 'ተፈጥሯል',
-        'lastUpdated': 'በመጨረሻ ተዘምኗል',
-        'status': 'ሁኔታ',
         'at': 'በ',
       },
       'om': {
@@ -997,7 +826,6 @@ class _AppLocalizationsDelegate
         'viewAllReports': 'Odeeffannoo Hunda Ilaali',
         'myReports': 'Odeeffannoo Koo',
         'noReports': 'Odeeffannoo hin argamne',
-        'reportDetails': 'Garuurri Odeeffannoo',
         'comments': 'Yaada',
         'addComment': 'Yaada dabaladhu...',
         'post': 'Baasi',
@@ -1039,14 +867,6 @@ class _AppLocalizationsDelegate
         'toSendReport': 'GABAASA ERGUU',
         'clickHere': 'ASITTI CUQAASAA',
 
-        // Authentication
-        'alreadyHaveAccountLogin': 'Akkaawuntii qabdaa? Seeni',
-        'forgotPasswordTitle': 'Jecha Iccitii Irraanfadhe',
-        'ifYouWantCreateAccount': 'Akkaawuntii biraa uumuu yoo barbaaddan',
-        'orSignUpWith': 'ykn kanaan galmaa\'aa',
-        'dontHaveAccountSignUp': 'Akkaawuntii hin qabduu? Galmaa\'aa',
-        'or': 'ykn',
-
         // Terms and Conditions
         'termsAndConditionsTitle': 'Haala fi Heera',
         'term1': '1. Ea voluptates omnis aut sequi sequi.',
@@ -1056,7 +876,6 @@ class _AppLocalizationsDelegate
         'termBullet1': '- Aut fuga sequi eum voluptatibus provident.',
         'termBullet2':
             '- Eos consequuntur voluptas vel amet eaque aut dignissimos velit.',
-        'iAcceptTerms': 'Haala fi heera hunda nan fudhaa',
         'termsDescription':
             'Appii Fayyadama Hararii itti fufuuf haala fi heera keenya dubbisi fi mirkaneessi.',
         'termsPoint1':
@@ -1126,38 +945,12 @@ class _AppLocalizationsDelegate
 
         // Report View
         'completed': 'XUMURAME',
-        'basicInformation': 'Odeeffannoo Bu\'uuraa',
-        'reportContent': 'Qabiyyee Gabaasaa',
-        'analysis': 'Xiinxala',
-        'conclusionsFuture': 'Xumura fi Fuuldura',
-        'reportMetadata': 'Meetaadeetaa Gabaasaa',
-        'attachments': 'Qabsiisoota',
-        'fileAttachments': 'Qabsiisoota Faayilii:',
-        'linkAttachment': 'Qabsiisa Hidhannoo:',
-        'reportInformation': 'Odeeffannoo Gabaasaa',
-        'created': 'Uumame',
-        'lastUpdated': 'Dhumatti Haaromfame',
-        'status': 'Haala',
         'reportType': 'Gosa Gabaasaa',
         'type': 'Gosa',
         'receiverName': 'Maqaa Fudhattuu',
         'objectiveOfReport': 'Kaayyoo Gabaasaa',
         'description': 'Ibsa',
         'untitledReport': 'Gabaasa Mata duree hin qabne',
-        'reportDetails': 'Gabaasa Keessaa',
-        'completed': 'Xumurame',
-        'basicInformation': 'Odeeffannoo Bu\'uuraa',
-        'reportContent': 'Qabiyyee Gabaasaa',
-        'analysis': 'Xiinxala',
-        'conclusionsFuture': 'Xumura fi Fuuldura',
-        'reportMetadata': 'Meetaadeetaa Gabaasaa',
-        'attachments': 'Qabsiisoota',
-        'fileAttachments': 'Qabsiisoota Faayilii:',
-        'linkAttachment': 'Qabsiisa Hidhannoo:',
-        'files': 'faayilii(wwan)',
-        'receiver': 'Fudhattuu',
-        'sender': 'Ergaa',
-        'objective': 'Kaayyoo',
 
         // Security
         'securityTitle': 'Daqiiqaa',
@@ -1165,7 +958,6 @@ class _AppLocalizationsDelegate
         'deleteAccountMessage':
             'Akkaawuntii keessan haquu ni jaallattaa? Gochaan kun deebifamuun hin danda\'amu.',
         'failedToDeleteAccount': 'Akkaawuntii haquu hin dandeenye',
-        'changeUsername': 'Maqaa Fayyadamtaa Jijjiiri',
         'currentPassword': 'Jecha Iccitii Ammaa',
         'newPassword': 'Jecha Iccitii Haaraa',
         'confirmNewPassword': 'Jecha Iccitii Haaraa Mirkaneessi',
@@ -1174,11 +966,8 @@ class _AppLocalizationsDelegate
         'passwordMismatch': 'Jecha icciitiin wal hin gitu',
         'passwordUpdated': 'Jecha icciitiin milkaa\'inaan jijjiirame',
         'usernameUpdated': 'Maqaan fayyadamtaa milkaa\'inaan jijjiirame',
-        'changePassword': 'Jecha Iccitii Jijjiiri',
-        'termsAndConditions': 'Haala fi Heera',
 
         // FAQ & Help Screen
-        'faq': 'Gaaffilee Dabalataan',
         'contactUs': 'Nu Qunnamti',
         'helpCenter': 'Giddugala Gargaarsa',
         'contactSupport': 'Gargaarsa Qunnamti',
@@ -1213,24 +1002,6 @@ class _AppLocalizationsDelegate
         'faqHelp': 'Gaaffii Deebii fi Gargaarsa',
         'faqDescription':
             'Amalli kun galmee fi qabsiisoota barbaachisoo hunda waliin gabaasa bal\'inaan qaban gara waajjira Paartii Badhaadhinaatti akka galchitan isin gargaara.',
-        'noCompletedReports': 'Gabaasni xumuramaa hin jiru',
-        'failedToLoadReports': 'Gabaasota fayyadamaa hin danda\'amne',
-        'untitledReport': 'Gabaasa mata duree hin qabne',
-        'notSpecified': 'Kan hin murtoofne',
-        'date': 'Guyyaa',
-        'reportType': 'Gosa Gabaasaa',
-        'receiver': 'Fudhattuu',
-        'sender': 'Ergaa',
-        'objective': 'Kaayyoo',
-        'attachments': 'Qabsiisoota',
-        'files': 'Faayilota',
-        'link': 'Hidhannoo',
-        'created': 'Uumame',
-        'completed': 'Xumurame',
-        'edit': 'Jijjiiri',
-        'view': 'Ilaali',
-        'retry': 'Irra deebi\'i',
-        'createFirstReport': 'Gabaasa Jalqabaa Keessan Uumaa',
 
         // Debug and Messages
         'accountCreatedSuccessfully':
@@ -1319,34 +1090,13 @@ class _AppLocalizationsDelegate
         'newPasswordRequired': 'Jecha icciitii haaraa galchaa',
         'passwordTooShort':
             'Jecha icciitii yoo xiqqaate arfii 6 qabaachuu qaba',
-        'confirmPasswordRequired': 'Jecha icciitii haaraa mirkaneessaa',
         'passwordChangeFailed': 'Jecha icciitii jijjiiruu hin dandeenye',
         'changingPassword': 'Jijjiiramuu jira...',
-        'changePassword': 'Jecha Iccitii Jijjiiri',
-        'passwordChangedSuccessfully':
-            'Jecha icciitii milkaa\'inaan jijjiirame!',
 
         // Report History Screen
         'noCompletedReports': 'Gabaasni xumuramaa hin jiru.',
         'failedToLoadReports': 'Gabaasota fe\'uu hin dandeenye',
-        'untitledReport': 'Gabaasa mata duree hin qabne',
         'notSpecified': 'Kan hin murtoofne',
-        'date': 'Guyyaa',
-        'reportType': 'Gosa Gabaasaa',
-        'receiver': 'Fudhattuu',
-        'sender': 'Ergaa',
-        'objective': 'Kaayyoo',
-        'attachments': 'Qabsiisoota',
-        'files': 'faayilii(wwan)',
-        'attached': 'qabsiifame',
-        'link': 'Hidhannoo',
-        'created': 'Uumame',
-        'completed': 'Xumurame',
-        'edit': 'Jijjiiri',
-        'view': 'Ilaali',
-        'close': 'Cufi',
-        'retry': 'Irra deebi\'i',
-        'createFirstReport': 'Gabaasa Jalqabaa Keessan Uumaa',
 
         // PIN Screen
         'enter_pin': 'PIN galchi',
@@ -1356,25 +1106,7 @@ class _AppLocalizationsDelegate
         'set_pin_description':
             'Appii keessan tiksummaa gochuuf PIN lakkoofsa 4 uumaa',
         'change_pin_description': 'PIN keessan jijjiiri',
-        'incorrect_pin': 'PIN sirrii miti. Irra deebi\'aa yaali.',
         'pin_must_be_4_digits': 'PIN lakkoofsa 4 qofa ta\'uu qaba',
-
-        // Report View Screen
-        'reportDetails': 'Bal\'ina Gabaasaa',
-        'completed': 'XUMURAME',
-        'basicInformation': 'Odeeffannoo Bu\'uuraa',
-        'reportContent': 'Qabiyyee Gabaasaa',
-        'analysis': 'Xiinxala',
-        'conclusionsFuture': 'Xumura fi Fuuldura',
-        'reportMetadata': 'Meetaadeetaa Gabaasaa',
-        'attachments': 'Qabsiisoota',
-        'fileAttachments': 'Qabsiisoota Faayilii:',
-        'linkAttachment': 'Qabsiisa Hidhannoo:',
-        'reportInformation': 'Odeeffannoo Gabaasaa',
-        'created': 'Uumame',
-        'lastUpdated': 'Dhumatti Haaromfame',
-        'status': 'Haala',
-        'at': 'irratti',
       },
     };
 

@@ -4,7 +4,6 @@ import 'package:harari_prosperity_app/shared/widgets/custom_button.dart';
 import 'package:harari_prosperity_app/shared/services/report_service.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
-import 'dart:io';
 
 class AttachmentScreen extends StatefulWidget {
   const AttachmentScreen({super.key});

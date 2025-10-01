@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harari_prosperity_app/shared/models/report_model.dart';
 import 'package:harari_prosperity_app/shared/widgets/responsive_widgets.dart';
-import 'package:harari_prosperity_app/routes/app_routes.dart';
 import 'package:harari_prosperity_app/shared/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:printing/printing.dart';

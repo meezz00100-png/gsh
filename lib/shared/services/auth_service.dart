@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:harari_prosperity_app/shared/config/api_config.dart';
@@ -137,8 +138,10 @@ class AuthService {
     required String password,
   }) async {
     try {
-      print('Attempting login for: $email');
-      print('API URL: ${ApiConfig.baseUrl}${ApiConfig.signIn}');
+      if (ApiConfig.debugMode) {
+        debugPrint('Attempting login for: $email');
+        debugPrint('API URL: ${ApiConfig.baseUrl}${ApiConfig.signIn}');
+      }
 
       final response = await http
           .post(
@@ -148,24 +151,34 @@ class AuthService {
           )
           .timeout(const Duration(seconds: 30));
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      if (ApiConfig.debugMode) {
+        debugPrint('Response status: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+      }
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print('Parsed response data: $data');
+        if (ApiConfig.debugMode) {
+          debugPrint('Parsed response data: $data');
+        }
         final authResponse = ApiAuthResponse.fromJson(data);
         await _saveSession(authResponse.session);
         await _saveUser(authResponse.user);
-        print('Login successful for user: ${authResponse.user?.email}');
+        if (ApiConfig.debugMode) {
+          debugPrint('Login successful for user: ${authResponse.user?.email}');
+        }
         return authResponse;
       } else {
         final errorData = json.decode(response.body);
-        print('Login failed with status ${response.statusCode}: $errorData');
+        if (ApiConfig.debugMode) {
+          debugPrint('Login failed with status ${response.statusCode}: $errorData');
+        }
         throw Exception(errorData['message'] ?? 'Sign in failed');
       }
     } catch (e) {
-      print('Login error: $e');
+      if (ApiConfig.debugMode) {
+        debugPrint('Login error: $e');
+      }
       if (e.toString().contains('SocketException') ||
           e.toString().contains('Connection refused')) {
         throw Exception(
